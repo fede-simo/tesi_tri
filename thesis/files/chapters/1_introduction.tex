@@ -1,35 +1,88 @@
 \chapter{Introduzione}
 \label{chap:introduzione}
 
+% Introduzione al contesto applicativo.
+
+% Lorem Figure \ref{fig:entanglement}
+
+% Esempio di utilizzo di un termine nel glossario \gls{api}.
+
+% Esempio di citazione direttamente nel testo \cite{site:agile-manifesto}.
+
+% Esempio di citazione nel piè di pagina \footcite{womak:lean-thinking}.
+
+% .
+
+\section{L'azienda}
+Spazio Dev S.r.l.\footnote{\url{https://www.spaziodev.eu}} è un'azienda multidisciplinare con sede a Tombolo (Padova) specializzata 
+nello sviluppo di soluzioni software innovative. Integrando tecnologie avanzate, intelligenza 
+artificiale e design, trasforma idee ed esigenze aziendali in prodotti pronti per il mercato. 
+Dal 2023 supporta imprese e realtà produttive nella realizzazione di software su misura, 
+promuovendo innovazione, efficienza e competitività attraverso l'impiego delle più moderne 
+tecnologie.
+
 \begin{figure}[H]
     \centering
-    \includegraphics[alt={Testo alternativo dell'immagine}, width=1\columnwidth]{img/quantum_entanglement.jpeg}
-    \caption{Lorem}
+    \includegraphics[alt={Logo dell'azienda}, width=1\columnwidth]{img/logo_sd.png}
+    \caption{Logo dell'azienda}
     \label{fig:entanglement}
 \end{figure}
 
-Introduzione al contesto applicativo.
-
-Lorem Figure \ref{fig:entanglement}
-
-Esempio di utilizzo di un termine nel glossario \gls{api}.
-
-Esempio di citazione direttamente nel testo \cite{site:agile-manifesto}.
-
-Esempio di citazione nel piè di pagina \footcite{womak:lean-thinking}.
-
-\lipsum[1-2]
-
-\section{L'azienda}
-\lipsum[1]
+\subsection{Il reparto}
+Dev-Automation è la divisione dell'azienda specializzata nello sviluppo e nell'integrazione 
+di soluzioni basate sull'Intelligenza Artificiale per il settore industriale. L'obiettivo 
+del reparto è supportare le aziende nell'ottimizzazione dei processi produttivi attraverso 
+strumenti intelligenti e tecnologie innovative.
+I prodotti da loro sviluppati comprendono:
+\begin{itemize}
+    \item \textbf{Brain/ErpAI:} piattaforma ERP potenziata dall'Intelligenza Artificiale che 
+        supporta la pianificazione della produzione, la gestione delle risorse e 
+        l'ottimizzazione dei processi aziendali. Il progetto descritto nel presente 
+        documento è stato sviluppato all'interno di questo prodotto.
+    \item \textbf{Fault Prevention:} modulo dedicato al monitoraggio continuo della 
+        produzione, progettato per prevenire i fermi macchina mediante l'analisi in tempo 
+        reale dei dati provenienti dagli impianti.
+    \item \textbf{Soluzioni Custom:} progettazione e sviluppo di sistemi basati 
+        sull'Intelligenza Artificiale realizzati su misura, in grado di rispondere alle 
+        specifiche esigenze operative e produttive delle aziende clienti.
+\end{itemize}
 
 \section{L'idea}
-Introduzione all'idea dello stage\footcite{article:spooky}.
-\lipsum[1-3]
+Il progetto \textit{Brain} è sviluppato su commissione di Falmec S.p.A., azienda 
+specializzata nella progettazione e produzione di cappe aspiranti per cucine domestiche. 
+L'obiettivo del progetto è ottimizzare l'intero processo di gestione aziendale, coprendo 
+tutte le principali aree operative: dalla gestione del magazzino alla pianificazione della 
+produzione, fino alla gestione delle vendite.
+
+Per raggiungere tale obiettivo, \textit{Brain} implementa un sistema gestionale basato sulla 
+metodologia \acrfull{mrp}. Attraverso l'analisi dello storico 
+delle vendite e dei \gls{forecast} sulla domanda futura, il sistema 
+consente di adottare un approccio proattivo alla pianificazione della produzione. In questo 
+modo, l'azienda è in grado di organizzare con anticipo le risorse necessarie, anziché 
+intervenire solamente al momento della ricezione degli ordini, migliorando l'efficienza 
+operativa e riducendo tempi di risposta e sprechi.
+
+L'attività di stage si inserisce in questo contesto con l'obiettivo di integrare all'interno 
+di \textit{Brain} un sistema di \acrfull{xai} auditabile. 
+Il sistema dovrà consentire la registrazione e la consultazione delle decisioni prodotte dai 
+diversi moduli del gestionale, memorizzando per ciascuna di esse le evidenze, i fattori che 
+hanno influenzato il processo decisionale e uno \gls{snapshot} dei dati disponibili al 
+momento della decisione.
+
+L'integrazione interesserà in particolare i moduli \acrfull{aps}, \acrfull{atp} e il calcolo del 
+costo effettivo, nei quali vengono generate decisioni o risultati di particolare 
+rilevanza. Tali componenti verranno collegati al modulo XAI affinché ogni decisione possa 
+essere resa comprensibile, tracciabile e verificabile. Inoltre, il sistema consentirà di 
+individuare rapidamente eventuali scostamenti rispetto ai valori attesi o situazioni 
+critiche, notificandole agli utenti mediante un sistema di alert configurabili e facilitando 
+così interventi tempestivi.
+
+
+
 
 \section{Organizzazione del testo}
 \begin{description}
-    \item[{\hyperref[chap:processi-metodologie]{Il secondo capitolo}}] descrive ...
+    \item[{\hyperref[chap:processi-metodologie]{Il secondo capitolo}}] descrive
     
     \item[{\hyperref[chap:descrizione-stage]{Il terzo capitolo}}] approfondisce ...
     
@@ -45,7 +98,7 @@ Introduzione all'idea dello stage\footcite{article:spooky}.
 Riguardo la stesura del testo, relativamente al documento sono state adottate le seguenti convenzioni tipografiche:
 \begin{itemize}
 	\item gli acronimi, le abbreviazioni e i termini ambigui o di uso non comune menzionati vengono definiti nel glossario, situato alla fine del presente documento;
-	\item per la prima occorrenza dei termini riportati nel glossario viene utilizzata la seguente nomenclatura: \gls{apig};
+	\item per la prima occorrenza dei termini riportati nel glossario viene utilizzata la seguente nomenclatura: \gls{ai};
 	\item i termini in lingua straniera o facenti parti del gergo tecnico sono evidenziati con il carattere \textit{corsivo}.
 \end{itemize}
 
