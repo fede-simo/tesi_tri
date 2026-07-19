@@ -24,4 +24,5 @@
 *.lol
 *.xmpdata
 *.minted
+*.bbl-SAVE-ERROR
 minted-caches/
