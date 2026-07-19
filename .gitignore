@@ -17,7 +17,6 @@
 *.lof
 *.log
 *.lot
-*.pdf
 *.run.xml
 *.synctex.gz
 *.toc
