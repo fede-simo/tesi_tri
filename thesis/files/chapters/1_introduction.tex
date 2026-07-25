@@ -62,12 +62,16 @@ modo, l'azienda è in grado di organizzare con anticipo le risorse necessarie, a
 intervenire solamente al momento della ricezione degli ordini, migliorando l'efficienza 
 operativa e riducendo tempi di risposta e sprechi.
 
-L'attività di stage si inserisce in questo contesto con l'obiettivo di integrare all'interno 
-di \textit{Brain} un sistema di \acrfull{xai} auditabile. 
-Il sistema dovrà consentire la registrazione e la consultazione delle decisioni prodotte dai 
-diversi moduli del gestionale, memorizzando per ciascuna di esse le evidenze, i fattori che 
-hanno influenzato il processo decisionale e uno \gls{snapshot} dei dati disponibili al 
-momento della decisione.
+L'attività di stage si inserisce in questo contesto con l'obiettivo di integrare all'interno di \textit{Brain} un sistema di \acrfull{xai} auditabile e un sistema di gestione 
+degli alert.
+\newline
+Il modulo XAI dovrà consentire la registrazione e la consultazione delle decisioni prodotte dai diversi moduli del gestionale, memorizzando per ciascuna di esse le evidenze, 
+i fattori che hanno influenzato il processo decisionale e uno \gls{snapshot} dei dati disponibili al momento della decisione.
+\newline
+Parallelamente, verrà sviluppato un motore di alerting in grado di individuare e segnalare situazioni critiche all'interno dei processi produttivi, fornendo agli utenti 
+informazioni tempestive sulle eventuali anomalie rilevate. Il sistema dovrà inoltre permettere la definizione di regole personalizzabili, così da adattare la generazione degli
+alert alle specifiche esigenze operative degli utenti finali.
+
 
 L'integrazione interesserà in particolare i moduli \acrfull{aps}, \acrfull{atp} e il calcolo del 
 costo effettivo, nei quali vengono generate decisioni o risultati di particolare 
@@ -80,38 +84,44 @@ così interventi tempestivi.
 
 
 
+
 \section{Organizzazione del testo}
+
 \begin{description}
-    \item[{\hyperref[chap:processi-metodologie]{Il secondo capitolo}}] descrive
-    
-    \item[{\hyperref[chap:descrizione-stage]{Il terzo capitolo}}] approfondisce ...
-    
-    \item[{\hyperref[chap:analisi-requisiti]{Il quarto capitolo}}] approfondisce ...
-    
-    \item[{\hyperref[chap:progettazione-codifica]{Il quinto capitolo}}] approfondisce ...
-    
-    \item[{\hyperref[chap:verifica-validazione]{Il sesto capitolo}}] approfondisce ...
-    
-    \item[{\hyperref[chap:conclusioni]{Nel settimo capitolo}}] descrive ...
+    \item[\hyperlink{chap:processi-metodologie}{Il secondo capitolo: "Processi aziendali e metodologie di
+lavoro"}] descrive i processi aziendali e le metodologie di lavoro utilizzate durante il periodo di stage,
+fornendo una panoramica completa delle attività svolte.
+    \item[\hyperlink{chap:analisi-requisiti}{Il terzo capitolo: "Analisi dei requisiti del progetto"}] analizza i
+requisiti del progetto e le loro relazioni con le funzionalità del sistema, utilizzando metodi di analisi avanzati
+per garantire la qualità del risultato.
+    \item[\hyperlink{chap:progettazione-codifica}{Il quarto capitolo: "Progettazione e codifica del sistema"}]
+descrive la progettazione e la codifica del sistema, fornendo dettagli sulla scelta delle tecnologie e sulle
+strategie di sviluppo utilizzate.
+    \item[\hyperlink{chap:verifica-validazione}{Il quinto capitolo: "Verifica e valutazione delle prestazioni del
+sistema"}] verifica e valuta le prestazioni del sistema, utilizzando metodi di testing avanzati per garantire la
+qualità e la sicurezza del risultato.
+    \item[\hyperlink{chap:conclusioni}{Il sesto capitolo: "Conclusione e prospettive future"}] descrive le
+conclusioni e le future prospettive del progetto, fornendo una panoramica completa delle attività svolte e dei
+risultati ottenuti.
 \end{description}
 
 Riguardo la stesura del testo, relativamente al documento sono state adottate le seguenti convenzioni tipografiche:
 \begin{itemize}
-	\item gli acronimi, le abbreviazioni e i termini ambigui o di uso non comune menzionati vengono definiti nel glossario, situato alla fine del presente documento;
+	\item gli acronimi, le abbreviazioni e i termini ambigui o di uso non comune menzionati vengono definiti nel glossario, situato all'inizio del presente documento;
 	\item per la prima occorrenza dei termini riportati nel glossario viene utilizzata la seguente nomenclatura: \gls{ai};
 	\item i termini in lingua straniera o facenti parti del gergo tecnico sono evidenziati con il carattere \textit{corsivo}.
 \end{itemize}
 
-\begin{listing}[H]
-\begin{minted}{c}
-#include <stdio.h>
-int main() {
-    print("Hello, world!");
-    return 0;
-}
-\end{minted}
-\caption{Example of code}
-\label{listing:a}
-\end{listing}
+% \begin{listing}[H]
+% \begin{minted}{c}
+% #include <stdio.h>
+% int main() {
+%     print("Hello, world!");
+%     return 0;
+% }
+% \end{minted}
+% \caption{Example of code}
+% \label{listing:a}
+% \end{listing}
 
 \newpage
