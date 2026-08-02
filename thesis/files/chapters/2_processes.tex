@@ -3,28 +3,37 @@
 
 \section{Contesto aziendale}
 
-L'azienda si distingue per l'elevata attenzione rivolta all'organizzazione del lavoro e alla definizione dei processi di sviluppo, aspetti che hanno contribuito a creare un ambiente collaborativo ed efficiente. Grazie a una gestione strutturata delle attività, il team di sviluppo del progetto ErpAI ha potuto operare in maniera coordinata, favorendo una comunicazione efficace e una rapida risoluzione delle problematiche emerse durante lo sviluppo.
+L'azienda si distingue per l'elevata attenzione rivolta all'organizzazione del lavoro e alla definizione dei processi di sviluppo, aspetti che hanno 
+contribuito a creare un ambiente collaborativo ed efficiente. Grazie a una gestione strutturata delle attività, il team di sviluppo del progetto ErpAI ha 
+potuto operare in maniera coordinata, favorendo una comunicazione efficace e una rapida risoluzione delle problematiche emerse durante lo sviluppo.
 
-Il reparto dedicato al progetto ErpAI è composto da quattro sviluppatori, incluso il sottoscritto, coordinati dal titolare dell'azienda, che ha ricoperto un ruolo di supervisione, fornendo supporto tecnico e indicazioni progettuali durante l'intero periodo di sviluppo.
+Il reparto dedicato al progetto ErpAI è composto da quattro sviluppatori, incluso il sottoscritto, coordinati dal titolare dell'azienda, che ha ricoperto 
+un ruolo di supervisione, fornendo supporto tecnico e indicazioni progettuali durante l'intero periodo di sviluppo.
 
 \subsection{Modello di sviluppo Agile}
 
-L'azienda adotta il framework \textit{Scrum}\footnote{\cite{site:agile-manifesto}} come metodologia di sviluppo software, organizzando il lavoro in sprint della durata di una settimana.
+L'azienda adotta il framework \textit{Scrum}\footnote{\cite{site:agile-manifesto}} come metodologia di sviluppo software, organizzando il lavoro in 
+sprint della durata di una settimana.
 
-Ogni sprint ha inizio con lo \textit{Sprint Planning}, incontro coordinato dallo \textit{Scrum Master}, figura responsabile del corretto svolgimento del processo Scrum. Durante questa fase vengono definite le funzionalità da sviluppare nel corso della settimana e vengono analizzate le criticità emerse durante la \textit{Sprint Retrospective} dello sprint precedente, con l'obiettivo di migliorare continuamente il processo di sviluppo.
+Ogni sprint ha inizio con lo \textit{Sprint Planning}, incontro coordinato dallo \textit{Scrum Master}, figura responsabile del corretto svolgimento 
+del processo Scrum. Durante questa fase vengono definite le funzionalità da sviluppare nel corso della settimana e vengono analizzate le criticità emerse 
+durante la \textit{Sprint Retrospective} dello sprint precedente, con l'obiettivo di migliorare continuamente il processo di sviluppo.
 
-Nel corso dello sprint, il team lavora in modo autonomo al raggiungimento degli obiettivi prefissati. Al termine della settimana si svolge la \textit{Sprint Review}, durante la quale vengono presentati i risultati ottenuti e raccolti i feedback necessari per valutare il lavoro svolto e pianificare le attività successive.
+Nel corso dello sprint, il team lavora in modo autonomo al raggiungimento degli obiettivi prefissati. Al termine della settimana si svolge la 
+\textit{Sprint Review}, durante la quale vengono presentati i risultati ottenuti e raccolti i feedback necessari per valutare il lavoro svolto e pianificare 
+le attività successive. La Figura~\ref{fig:scrum} riassume schematicamente il ciclo iterativo seguito durante lo sviluppo.
 
 \begin{figure}[H]
 \centering
-\includegraphics[alt={Modello Scrum}, height=5cm]{img/scrum.jpeg}
+\includegraphics[alt={Modello Scrum}, height=8cm]{img/scrum.jpeg}
 \caption{Modello Scrum}
 \label{fig:scrum}
 \end{figure}
 
 \subsection{Issue Tracking System}
 
-La gestione delle attività di sviluppo è affidata a Plane\footnote{\cite{site:plane}}, una piattaforma di \textit{issue tracking} che consente di organizzare e monitorare l'avanzamento del progetto attraverso una bacheca suddivisa nelle seguenti sezioni:
+La gestione delle attività di sviluppo è affidata a Plane\footnote{\cite{site:plane}}, una piattaforma di \textit{issue tracking} che consente di organizzare e 
+monitorare l'avanzamento del progetto attraverso una bacheca suddivisa nelle seguenti sezioni:
 
 \begin{itemize}
 \item \textbf{Backlog}: raccoglie le attività pianificate ma non ancora avviate;
@@ -44,9 +53,11 @@ Ogni issue contiene una serie di informazioni utili alla gestione del lavoro, tr
 
 \subsection{Version Control}
 
-La gestione del codice sorgente è affidata al sistema di controllo di versione \gls{git}, utilizzato tramite Gitea\footnote{\cite{site:gitea}}, una piattaforma open-source per l'hosting di repository Git all'interno dell'infrastruttura aziendale.
+La gestione del codice sorgente è affidata al sistema di controllo di versione \gls{git}, utilizzato tramite Gitea\footnote{\cite{site:gitea}}, una piattaforma 
+open-source per l'hosting di repository Git all'interno dell'infrastruttura aziendale.
 
-L'organizzazione dei branch si ispira al modello GitFlow, opportunamente adattato alle esigenze del team di sviluppo. In particolare, vengono utilizzate le seguenti tipologie di branch:
+L'organizzazione dei branch si ispira al modello GitFlow (illustrato in Figura~\ref{fig:gitflow}), opportunamente adattato alle esigenze del team di sviluppo. In particolare, vengono utilizzate le seguenti 
+tipologie di branch:
 
 \begin{itemize}
 \item \textbf{main}: contiene la versione stabile del software destinata alla produzione;
@@ -59,7 +70,7 @@ L'organizzazione dei branch si ispira al modello GitFlow, opportunamente adattat
 
 \begin{figure}[H]
     \centering
-    \includegraphics[alt={Modello GitFlow}, height=5cm]{img/gitflow.png}
+    \includegraphics[alt={Modello GitFlow}, height=7cm]{img/gitflow.png}
     \caption{Modello GitFlow}
     \label{fig:gitflow}
 \end{figure}
@@ -107,62 +118,12 @@ Oltre agli incontri quotidiani dedicati all'allineamento sulle attività svolte 
 la gestione di dubbi o criticità di minore entità. Questo ha permesso di ottenere rapidamente chiarimenti e feedback, mantenendo un flusso di collaborazione costante anche al 
 di fuori degli incontri programmati.
 
-\subsection{Analisi preventiva dei rischi}
-
-Durante la fase iniziale dello stage sono stati identificati alcuni possibili rischi che avrebbero potuto influenzare il corretto svolgimento delle attività previste. Per ciascun rischio sono state individuate opportune strategie di mitigazione volte a ridurne l'impatto sul progetto.
-
-\subsubsection{Integrazione con componenti esistenti}
-
-\textbf{Descrizione:}
-Il progetto prevede l'integrazione di nuove funzionalità, come il modulo XAI e il sistema di alert, all'interno di un gestionale già sviluppato. La conoscenza iniziale 
-limitata dell'architettura esistente e delle logiche implementate avrebbe potuto causare difficoltà nell'individuazione dei punti corretti di integrazione.
-
-\textbf{Soluzione:}
-Prima dell'inizio dello sviluppo è stata prevista una fase di analisi del codice esistente e delle componenti già implementate, al fine di comprendere l'architettura del 
-sistema e identificare le modalità di integrazione più appropriate.
-
-\subsubsection{Apprendimento di nuove tecnologie}
-
-\textbf{Descrizione:}
-Lo sviluppo delle nuove componenti richiede l'utilizzo di tecnologie e strumenti non necessariamente già conosciuti, comportando il rischio di un rallentamento delle 
-attività dovuto alla necessità di acquisire nuove competenze.
-
-\textbf{Soluzione:}
-Le prime settimane dello stage sono state dedicate allo studio delle tecnologie adottate dall'azienda e alla familiarizzazione con l'ambiente di sviluppo, permettendo 
-di ridurre il rischio di ritardi nelle successive fasi di implementazione.
-
-\subsubsection{Compatibilità con il solver di scheduling}
-
-\textbf{Descrizione:}
-L'integrazione con il solver di scheduling sviluppato nelle precedenti consegne potrebbe introdurre problematiche di compatibilità tra le componenti, dovute a differenze 
-nelle interfacce o nelle modalità di gestione dei dati.
-
-\textbf{Soluzione:}
-L'integrazione è stata pianificata attraverso un'analisi preventiva delle interfacce esposte dal solver e una definizione delle modalità di comunicazione necessarie, 
-limitando l'intervento alle modifiche strettamente necessarie.
-
-\subsubsection{Tempi di risposta del sistema}
-
-\textbf{Descrizione:}
-L'integrazione di funzionalità basate su intelligenza artificiale, come il chatbot XAI, può introdurre un aumento dei tempi di risposta rispetto alle funzionalità 
-tradizionali del gestionale. Tempi di elaborazione elevati potrebbero compromettere l'esperienza dell'utente e rendere meno efficace l'interazione con il sistema.
-
-\textbf{Soluzione:}
-È stata prevista un'analisi delle tempistiche di risposta delle componenti coinvolte, valutando eventuali ottimizzazioni nelle modalità di comunicazione e nella gestione 
-delle richieste. Inoltre, sono state considerate strategie per migliorare la percezione dell'attesa da parte dell'utente, come la gestione asincrona delle operazioni più onerose.
-
-\subsubsection{Integrazione con API e servizi esterni}
-
-\textbf{Descrizione:}
-Il funzionamento del modulo XAI richiede l'integrazione con API esterne per l'elaborazione delle richieste al modello linguistico. Tale dipendenza introduce possibili 
-rischi legati alla disponibilità del servizio, alla gestione degli errori nelle comunicazioni e alla compatibilità tra le interfacce utilizzate.
-
-\textbf{Soluzione:}
-L'integrazione è stata progettata attraverso una separazione tra la logica applicativa del gestionale e i servizi esterni utilizzati, prevedendo una gestione controllata 
-delle chiamate API e degli eventuali errori restituiti. Sono inoltre state effettuate verifiche preliminari sulle modalità di comunicazione e sui dati scambiati tra i diversi 
-componenti.
 
 \section{Obiettivi dello stage}
+Gli obiettivi dello stage sono stati definiti in accordo con il tutor aziendale e classificati in base alla loro priorità. Gli obiettivi \textbf{obbligatori} 
+rappresentano le funzionalità essenziali da realizzare per il completamento del progetto, quelli \textbf{desiderabili} costituiscono miglioramenti che incrementano il 
+valore del sistema senza essere indispensabili, mentre gli obiettivi \textbf{funzionali} individuano possibili estensioni e integrazioni da sviluppare qualora il tempo a 
+disposizione lo consenta.
 
 \begin{center}
     \rowcolors{2}{lightblue}{white}
@@ -192,7 +153,67 @@ componenti.
         \end{tabularx}
 \end{center}
 
+\section{Analisi preventiva dei rischi}
+
+Durante la fase iniziale dello stage sono stati identificati alcuni possibili rischi che avrebbero potuto influenzare il corretto svolgimento delle attività previste. 
+Per ciascun rischio sono state individuate probabilità che il rischio si presenti così come opportune strategie di mitigazione volte a ridurne l'impatto sul progetto.
+
+\subsection{Difficoltà di integrazione con componenti esistenti}
+
+\textbf{Probabilità:} Media.
+
+\textbf{Impatto:} Alto.
+
+\textbf{Descrizione:}
+Le nuove funzionalità sviluppate durante lo stage devono essere integrate all'interno di un gestionale già esistente e caratterizzato da un'architettura complessa. Una 
+conoscenza inizialmente limitata della struttura del software e delle interazioni tra i diversi moduli potrebbe causare errori di integrazione, malfunzionamenti o un aumento 
+dei tempi di sviluppo. L'assenza di una documentazione completa e aggiornata dell'architettura esistente aumenta significativamente l'impatto di questo rischio, poiché rende 
+più difficile comprendere il funzionamento del sistema e individuare correttamente i punti di integrazione delle nuove funzionalità.
+
+\textbf{Soluzione:}
+Per mitigare tale rischio è stata prevista una fase iniziale di analisi dell'architettura del sistema e del codice esistente, accompagnata da un confronto continuo con il tutor 
+aziendale e con gli sviluppatori che avevano realizzato le componenti già presenti.
 
 
+\subsection{Incompatibilità con il solver di scheduling}
 
+\textbf{Probabilità:} Bassa.
+
+\textbf{Impatto:} Medio.
+
+\textbf{Descrizione:}
+L'integrazione con il solver di scheduling sviluppato nelle precedenti consegne potrebbe introdurre problematiche di compatibilità tra le componenti, dovute a differenze 
+nelle interfacce o nelle modalità di gestione dei dati.
+
+\textbf{Soluzione:}
+L'integrazione è stata pianificata attraverso un'analisi preventiva delle interfacce esposte dal solver e una definizione delle modalità di comunicazione necessarie, 
+limitando l'intervento alle modifiche strettamente necessarie.
+
+\subsection{Elevata latenza nei tempi di risposta del sistema}
+
+\textbf{Probabilità:} Media.
+
+\textbf{Impatto:} Medio.
+
+\textbf{Descrizione:}
+L'integrazione di funzionalità basate su intelligenza artificiale, come il chatbot XAI, può introdurre un aumento dei tempi di risposta rispetto alle funzionalità 
+tradizionali del gestionale. Tempi di elaborazione elevati potrebbero compromettere l'esperienza dell'utente e rendere meno efficace l'interazione con il sistema.
+
+\textbf{Soluzione:}
+È stata prevista un'analisi delle tempistiche di risposta delle componenti coinvolte, valutando eventuali ottimizzazioni nelle modalità di comunicazione e nella gestione 
+delle richieste. Inoltre, sono state considerate strategie per migliorare la percezione dell'attesa da parte dell'utente, come la gestione asincrona delle operazioni più onerose.
+
+\subsection{Indisponibilità o malfunzionamento delle API esterne}
+
+\textbf{Probabilità:} Bassa.
+
+\textbf{Impatto:} Alto.
+
+\textbf{Descrizione:}
+Il modulo XAI dipende dall'utilizzo di API esterne per l'elaborazione delle richieste. Eventuali indisponibilità del servizio, errori di comunicazione, 
+modifiche alle interfacce o un aumento della latenza potrebbero compromettere il corretto funzionamento del chatbot e delle funzionalità ad esso collegate.
+
+\textbf{Soluzione:}
+Per ridurre l'impatto di tali problematiche è stata prevista una gestione controllata delle chiamate API, con il trattamento degli errori e la separazione tra la logica 
+applicativa del gestionale e i servizi esterni, così da limitare le conseguenze di eventuali anomalie e facilitare future modifiche dell'integrazione.
 \newpage
