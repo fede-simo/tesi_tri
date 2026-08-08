@@ -13,9 +13,6 @@ All'interno del sistema vengono individuati tre principali attori coinvolti nell
     \item \textbf{Utente amministratore:} dipendente dell'azienda con privilegi avanzati rispetto all'utente base. Possiede tutte le funzionalità disponibili per quest'ultimo 
     e può modificare configurazioni e impostazioni del sistema non accessibili agli utenti standard.
 
-    \item \textbf{Sistema ERP:} componente principale del gestionale responsabile dell'elaborazione delle informazioni operative. Si occupa di monitorare le 
-    condizioni definite nelle regole degli alert configurate dagli utenti e di generare le relative segnalazioni in caso di violazione dei criteri stabiliti.
-
     \item \textbf{Modulo XAI:} componente software basato su chatbot che consente all'utente di interrogare il sistema e ottenere informazioni o spiegazioni 
     relative alle decisioni prese dal gestionale. Il modulo può utilizzare meccanismi di \textit{function calling} per recuperare dati dal database o eseguire 
     operazioni specifiche, come la creazione di nuovi record relativi ad acquisti o vendite, previa conferma esplicita dell'utente.
@@ -77,10 +74,10 @@ chiara e immediata la comprensione delle funzionalità descritte.
         \item \textbf{Attori:} Utente amministratore.
         \item \textbf{Precondizioni:} 
             \begin{enumerate}
-                \item l'utente è autenticato; 
-                \item l'utente possiede i permessi di amministratore.
+                \item L'utente è autenticato; 
+                \item L'utente possiede i permessi di amministratore.
             \end{enumerate}
-        \item \textbf{Postcondizioni:} il modulo XAI risulta configurato secondo le impostazioni definite dall'amministratore e disponibile per gli utenti autorizzati.
+        \item \textbf{Postcondizioni:} Il modulo XAI risulta configurato secondo le impostazioni definite dall'amministratore e disponibile per gli utenti autorizzati.
         \item \textbf{Scenario principale:}
             \begin{enumerate}
                 \item L'amministratore entra nella pagina contenente le impostazioni del modulo XAI.
@@ -352,6 +349,189 @@ chiara e immediata la comprensione delle funzionalità descritte.
             \end{enumerate}
     \end{itemize}
 
+    % ---------------------------------------------------------------------------------------------------------------------------
+    % ALERTS 
+    % ---------------------------------------------------------------------------------------------------------------------------
+
+\subsection{UC4: Configurazione delle regole alert}
+\label{uc:uc4}
+    \begin{itemize}
+        \item \textbf{Attori:} Utente.
+        \item \textbf{Precondizioni:} 
+            \begin{enumerate}
+                \item L'utente è autenticato; 
+                \item L'utente possiede i permessi per poter utilizzare le regole alert.
+            \end{enumerate}
+        \item \textbf{Postcondizioni:} Le regole alert risultano attivate.
+        \item \textbf{Scenario principale:}
+            \begin{enumerate}
+                \item L'utente entra nella pagina generale degli alert.
+                \item L'utente entra nella pagina delle impostazioni alert.
+                \item L'utente seleziona una nuova regola da abilitare.
+                \item L'utente setta i parametri della regola. 
+            \end{enumerate}
+    \end{itemize}
+
+\subsection{UC5: Visualizzazione delle notifiche alert}
+\label{uc:uc5}
+    \begin{itemize}
+        \item \textbf{Attori:} Utente.
+        \item \textbf{Precondizioni:} 
+            \begin{enumerate}
+                \item L'utente è autenticato; 
+                \item L'utente ha configurato le regole alert.
+            \end{enumerate}
+        \item \textbf{Postcondizioni:} L'utente può visualizzare la notifica \textit{toast}.
+        \item \textbf{Scenario principale:}
+            \begin{enumerate}
+                \item Il sistema ERP rileva una criticità che soddisfa i criteri definiti da una regola alert impostata.
+                \item Il sistema genera un alert relativo alla criticità rilevata.
+                \item Il sistema invia una notifica \textit{toast} all'utente.
+            \end{enumerate}
+        \item \textbf{Scenario alertnativo:}
+            \begin{enumerate}
+                \item Il sistema ERP rileva troppe violazioni della regola alert impostata.
+            \end{enumerate}
+        \item \textbf{Estensioni:}
+            \begin{enumerate}
+                \item \hyperref[uc:uc5.1]{UC5.1: Numero elevato di violazioni rilevate}
+            \end{enumerate}
+    \end{itemize} 
+
+\subsubsection{UC5.1: Numero elevato di violazioni rilevate}
+\label{uc:uc5.1}
+\begin{itemize}
+    \item \textbf{Attori:} Utente.
+    \item \textbf{Precondizioni:} 
+        \begin{enumerate}
+            \item L'utente è autenticato; 
+            \item L'utente ha configurato le regole alert.
+            \item Il sistema ha rilevato un numero elevato di violazioni della stessa regola alert.
+        \end{enumerate}
+    \item \textbf{Postcondizioni:} L'utente visualizza la notifica riepilogativa.
+    \item \textbf{Scenario principale:}
+        \begin{enumerate}
+            \item Il sistema raggruppa le violazioni rilevate.
+            \item Il sistema genera una notifica riepilogativa.
+        \end{enumerate}
+\end{itemize} 
+
+\subsection{UC6: Visualizzazione dell'alert}
+\label{uc:uc6}
+\begin{itemize}
+    \item \textbf{Attori:} Utente.
+    \item \textbf{Precondizioni:} 
+        \begin{enumerate}
+            \item L'utente è autenticato; 
+            \item L'utente ha configurato le regole alert.
+        \end{enumerate}
+    \item \textbf{Postcondizioni:} L'utente visualizza per intero la violazione verificatasi.
+    \item \textbf{Scenario principale:}
+        \begin{enumerate}
+            \item L'utente sta visualizzando la lista degli alert generati dal sistema.
+            \item L'utente seleziona un alert del quale vuole visualizzare i dettagli.
+        \end{enumerate}
+\end{itemize} 
+
+\subsection{UC7: Visualizzazione del modello associato dell'alert}
+\label{uc:uc7}
+\begin{itemize}
+    \item \textbf{Attori:} Utente.
+    \item \textbf{Precondizioni:} 
+        \begin{enumerate}
+            \item L'utente è autenticato; 
+            \item L'utente ha configurato le regole alert.
+            \item L'utente sta visualizzando il dettaglio di un alert.
+            \item Il modello associato all'alert è disponibile.
+        \end{enumerate}
+    \item \textbf{Postcondizioni:} L'utente visualizza il modello associato alla violazione che ha generato l'alert.
+    \item \textbf{Scenario principale:}
+        \begin{enumerate}
+            \item L'utente seleziona il collegamento al modello associato all'alert.
+            \item Il sistema recupera il modello associato alla violazione.
+            \item Il sistema reindirizza l'utente alla pagina di visualizzazione del modello.
+        \end{enumerate}
+\end{itemize} 
+
+\subsection{UC8: Richiesta al modulo XAI di una spiegazione relativa all'alert generato}
+\label{uc:uc8}
+\begin{itemize}
+    \item \textbf{Attori:} Utente, Modulo XAI.
+    \item \textbf{Precondizioni:} 
+        \begin{enumerate}
+            \item L'utente è autenticato; 
+            \item L'utente ha configurato le regole alert.
+            \item L'utente sta visualizzando il dettaglio di un alert.
+            \item L'utente è autorizzato ad utilizzare il chatbot.
+            \item La sidebar riguardante il chatbot è abilitata.
+        \end{enumerate}
+    \item \textbf{Postcondizioni:} L'utente visualizza una spiegazione relativa alla condizione che ha determinato la generazione dell'alert.
+    \item \textbf{Scenario principale:}
+        \begin{enumerate}
+            \item L'utente seleziona la funzione per richiedere una spiegazione dell'alert.
+            \item Il sistema attiva la sidebar relativa al modulo XAI sulla conversazione precedentemente utilizzata dall'utente.
+            \item Il sistema invia al modulo XAI le informazioni relative all'alert come contesto della richiesta.
+            \item Il modulo XAI elabora le informazioni ricevute.
+            \item Il modulo XAI fornisce una spiegazione relativa alla causa dell'alert.
+            \item Il sistema mostra la spiegazione all'utente.
+        \end{enumerate}
+    \item \textbf{Scenari alternativi:}
+            \begin{enumerate}
+                \item Il modello LLM non è raggiungibile e non è possibile generare la risposta (\hyperref[uc:uc2.3]{UC2.3}).
+                \item Le informazioni recuperate superano il limite massimo di token elaborabili dal modello (\hyperref[uc:uc2.4]{UC2.4}).
+                \item L'utente non dispone dei permessi necessari per visualizzare le informazioni richieste (\hyperref[uc:uc2.5]{UC2.5}).
+            \end{enumerate}
+        \item \textbf{Estensioni:}
+            \begin{enumerate}
+                \item \hyperref[uc:uc2.3]{UC2.3: Modello LLM non raggiungibile}
+                \item \hyperref[uc:uc2.4]{UC2.4: Limite token di risposta superato}
+                \item \hyperref[uc:uc2.5]{UC2.5: Permessi non sufficienti per effettuare la richiesta}
+            \end{enumerate}
+\end{itemize}
+
+\subsection{UC9: Visualizzazione log operazioni}
+\label{uc:uc9}
+    \begin{itemize}
+        \item \textbf{Attori:} Utente.
+        \item \textbf{Precondizioni:} 
+            \begin{enumerate}
+                \item L'utente è autenticato; 
+                \item L'utente possiede i permessi per poter visualizzare il registro delle operazioni.
+            \end{enumerate}
+        \item \textbf{Postcondizioni:} L'utente visualizza il registro delle operazioni effettuate sui modelli del sistema.
+        \item \textbf{Scenario principale:}
+            \begin{enumerate}
+                \item L'utente accede alla pagina dedicata al registro delle operazioni.
+                \item Il sistema recupera le operazioni registrate.
+                \item Il sistema mostra all'utente la lista delle operazioni effettuate sui modelli.
+            \end{enumerate}
+    \end{itemize} 
+
+\subsection{UC10: Visualizzazione dei dettagli di un'operazione}
+\label{uc:uc10}
+\begin{itemize}
+    \item \textbf{Attori:} Utente.
+    
+    \item \textbf{Precondizioni:}
+        \begin{enumerate}
+            \item L'utente è autenticato;
+            \item L'utente possiede i permessi necessari per visualizzare il registro delle operazioni;
+            \item L'utente ha selezionato un'operazione dal registro.
+        \end{enumerate}
+        
+    \item \textbf{Postcondizioni:} L'utente visualizza i dettagli relativi all'operazione selezionata.
+    
+    \item \textbf{Scenario principale:}
+        \begin{enumerate}
+            \item L'utente seleziona un'operazione dal registro.
+            \item Il sistema recupera i dettagli dell'operazione.
+            \item Il sistema mostra le informazioni relative all'operazione, tra cui l'utente che l'ha effettuata, la data, il modello interessato e il tipo di operazione.
+            \item Il sistema mostra i dati associati all'operazione.
+        \end{enumerate}
+\end{itemize}
+
+\newpage
+
 \section{Tracciamento dei requisiti}
 Da un'attenta analisi dei requisiti e dagli use case effettuati sul progetto è stata stilata la tabella che traccia i requisiti in rapporto agli use case.\\
 Sono stati individuati diversi tipi di requisiti e si è quindi fatto utilizzo di un codice identificativo per distinguerli.\\
@@ -369,5 +549,121 @@ Nelle tabelle \ref{tab:requisiti_funzionali}, \ref{tab:requisiti_qualitativi} e 
 delineati in fase di analisi.
 
 
+\begin{center}
+    \keepXColumns
+    \rowcolors{2}{lightblue}{white}
+        \begin{longtable}{|l|p{0.55\textwidth}|l|l|}
+            \hline
+            \rowcolor{gold}
+            \textbf{Codice} & \textbf{Descrizione requisito} & \textbf{UC Relativo} & \textbf{Necessità} \\
+            \hline
+            \endhead
+
+            \hline
+            \rowcolor{white}
+            \caption{Tabella riguardante i requisiti funzionali del progetto} \label{tab:requisiti_funzionali} \\
+            \endlastfoot 
+
+            \textbf{RFN-1} & Configurazione del modulo XAI & UC1 & N \\
+            \hline
+            \textbf{RFN-2} & Selezione del modello LLM per il modulo XAI & UC1.1 & N \\
+            \hline
+            \textbf{RFN-3} & Configurazione degli utenti abilitati al modulo XAI & UC1.2 & N \\
+            \hline
+            \textbf{RFN-4} & Configurazione dei tool disponibili per il modulo XAI & UC1.3 & N \\
+            \hline
+            \textbf{RFN-5} & Richiesta di spiegazioni al modulo XAI su una decisione del sistema & UC2 & N \\
+            \hline
+            \textbf{RFN-6} & Gestione della conversazione con il modulo XAI & UC2.1 & N \\
+            \hline
+            \textbf{RFN-7} & Chiamata a tool per spiegazioni del modulo XAI & UC2.2 & N \\
+            \hline
+            \textbf{RFN-8} & Modello LLM non raggiungibile & UC2.3 & N \\
+            \hline
+            \textbf{RFN-9} & Limite token di risposta superato & UC2.4 & N \\
+            \hline
+            \textbf{RFN-10} & Permessi non sufficienti per effettuare la richiesta & UC2.5 & N \\
+            \hline
+            \textbf{RFN-11} & Richiesta creazione nuovi record & UC3 & N \\
+            \hline
+            \textbf{RFN-12} & Chiamata al tool per creazione record del modulo XAI & UC3.1 & N \\
+            \hline
+            \textbf{RFN-13} & Dati forniti incorretti per la creazione del record & UC3.2 & N \\
+            \hline
+            \textbf{RFN-14} & Configurazione delle regole alert & UC4 & N \\
+            \hline
+            \textbf{RFN-15} & Visualizzazione delle notifiche alert & UC5 & N \\
+            \hline
+            \textbf{RFN-16} & Numero elevato di violazioni rilevate & UC5.1 & N \\
+            \hline
+            \textbf{RFN-17} & Visualizzazione dell'alert & UC6 & N \\
+            \hline
+            \textbf{RFN-18} & Visualizzazione del modello associato dell'alert & UC7 & N \\
+            \hline
+            \textbf{RFN-19} & Richiesta al modulo XAI di una spiegazione relativa all'alert generato & UC8 & N \\
+            \hline
+            \textbf{RFN-20} & Visualizzazione log operazioni & UC9 & N \\
+            \hline
+            \textbf{RFN-21} & Visualizzazione dei dettagli di un'operazione & UC10 & N \\
+            \hline
+        \end{longtable}
+\end{center}
+
+\newpage
+
+\begin{center}
+    \keepXColumns
+    \rowcolors{2}{lightblue}{white}
+        \begin{longtable}{|l|p{0.55\textwidth}|l|l|}
+            \hline
+            \rowcolor{gold}
+            \textbf{Codice} & \textbf{Descrizione requisito} & \textbf{UC Relativo} & \textbf{Necessità} \\
+            \hline
+            \endhead
+
+            \hline
+            \rowcolor{white}
+            \caption{Tabella riguardante i requisiti di qualità del progetto} \label{tab:requisiti_qualitativi} \\
+            \endlastfoot 
+
+            \textbf{RQN-1} & Il sistema deve garantire tempi di risposta adeguati nell'interazione con il modulo XAI, evitando attese non necessarie da parte dell'utente & UC1 - UC3.2 & N \\
+            \hline
+            \textbf{RQN-2} & Il sistema deve garantire la sicurezza delle informazioni, impedendo agli utenti di accedere a dati per i quali non possiedono i permessi necessari & UC1 - UC10 & N \\
+            \hline
+            \textbf{RQN-3} & Il sistema deve garantire la tracciabilità delle operazioni effettuate sui dati, registrando creazione, modifica ed eliminazione dei modelli & UC9 - UC10 & N \\
+            \hline
+            \textbf{RQN-4} & Le spiegazioni generate dal modulo XAI devono essere comprensibili per l'utente e presentate in linguaggio naturale & UC1 - UC3.2, UC8 & N \\
+            \hline
+            \textbf{RQN-5} & Il sistema deve garantire tempi di risposta adeguati durante il recupero dei dati e nella conseguente generazione e notifica degli alert & UC5, UC5.1 & N \\
+            \hline
+            \textbf{RQN-6} & Il sistema deve notificare tempestivamente l'utente in caso di eccezioni nell'uso di modulo XAI e alert per ridurre le attese inutili & UC2.3 - UC2.4, UC5.1 & N \\
+        \end{longtable}
+\end{center}
+
+\begin{center}
+    \keepXColumns
+    \rowcolors{2}{lightblue}{white}
+        \begin{longtable}{|l|p{0.55\textwidth}|l|l|}
+            \hline
+            \rowcolor{gold}
+            \textbf{Codice} & \textbf{Descrizione requisito} & \textbf{UC Relativo} & \textbf{Necessità} \\
+            \hline
+            \endhead
+
+            \hline
+            \rowcolor{white}
+            \caption{Tabella riguardante i requisiti di vincolo del progetto} \label{tab:requisiti_vincolo} \\
+            \endlastfoot 
+
+            \textbf{RVN-1} & Il sistema deve essere sviluppato in PHP & - & N \\
+            \hline
+            \textbf{RVN-2} & L'interfaccia grafica deve essere sviluppata in Filament & - & N \\
+            \hline
+            \textbf{RVN-3} & Il modulo XAI deve fornire le spiegazioni generate in lingua italiana & UC1 - UC3.2 & N \\
+            \hline
+            \textbf{RVN-4} & L'integrazione con i modelli linguistici deve avvenire attraverso le API messe a disposizione dai relativi provider & UC1 - UC3.2 & N \\
+            \hline
+        \end{longtable}
+\end{center}
 
 \newpage

@@ -124,14 +124,23 @@ Gli obiettivi dello stage sono stati definiti in accordo con il tutor aziendale 
 rappresentano le funzionalità essenziali da realizzare per il completamento del progetto, quelli \textbf{desiderabili} costituiscono miglioramenti che incrementano il 
 valore del sistema senza essere indispensabili, mentre gli obiettivi \textbf{funzionali} individuano possibili estensioni e integrazioni da sviluppare qualora il tempo a 
 disposizione lo consenta.
+\newpage
 
 \begin{center}
+    \keepXColumns
     \rowcolors{2}{lightblue}{white}
-        \begin{tabularx}{\textwidth}{|l|X|l|}
+        \begin{longtable}{|l|p{0.55\textwidth}|l|}
             \hline
             \rowcolor{gold}
-            \textbf{Codice}  & \textbf{Descrizione requisito}  & \textbf{Tipologia}   \\
+            \textbf{Codice} & \textbf{Descrizione requisito} & \textbf{Tipologia} \\
             \hline
+            \endhead
+
+            \hline
+            \rowcolor{white}
+            \caption{Tabella riguardante i requisiti dell'attività di stage} \label{tab:requisiti_stage} \\
+            \endlastfoot 
+
             \textbf{O01} & Implementare un sistema XAI auditabile per registrare e consultare decisioni, fattori, evidenze e snapshot dei dati. & Obbligatorio\\
             \hline
             \textbf{O02} & Realizzare regole alert, eventi e notifiche configurabili per segnalare proattivamente criticità operative. & Obbligatorio\\
@@ -150,7 +159,7 @@ disposizione lo consenta.
             \hline
             \textbf{F03} & Integrare le spiegazioni XAI nel chatbot sviluppato da un altro piano di lavoro o modulo parallelo. & Funzionale\\
             \hline
-        \end{tabularx}
+        \end{longtable}
 \end{center}
 
 \section{Analisi preventiva dei rischi}
