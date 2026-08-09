@@ -1,7 +1,6 @@
+<?php
 test('checks_late_buy_orders', function (int $remainingQty, int $days, ?int $threshold, int $expectedCount) {
-
     $user = User::factory()->create();
-
     $buyOrder = BuyOrder::factory()->create();
 
     AlertSetting::factory()->create([
@@ -11,7 +10,6 @@ test('checks_late_buy_orders', function (int $remainingQty, int $days, ?int $thr
             'min_time_threshold' => $threshold,
         ],
     ]);
-
     BuyOrderArticle::factory()->create([
         'buy_order_id' => $buyOrder->id,
         'remaining_qty' => $remainingQty,
@@ -19,9 +17,7 @@ test('checks_late_buy_orders', function (int $remainingQty, int $days, ?int $thr
     ]);
 
     $result = app(LateBuyOrdersRule::class)->check($user);
-
     expect($result->count())->toBe($expectedCount);
-
 })->with([
     [10, -1, 30, 1],    // scaduto ieri
     [0, -1, 30, 0],     // scaduto ieri ma con tutto consegnato
@@ -29,5 +25,5 @@ test('checks_late_buy_orders', function (int $remainingQty, int $days, ?int $thr
     [10, -20, 30, 1],   // scaduto 20gg fa
     [10, 1, 30, 0],     // scade domani
     [10, 0, null, 0],   // scade oggi
-    [10, -30, 0, 0],    // scaduto 30 gg fa ma vengono presi solo quelli negli ultimi 0 giorni
+    [10, -30, 0, 1],    // scaduto 30 gg fa, 
 ]);

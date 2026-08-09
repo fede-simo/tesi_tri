@@ -1,23 +1,244 @@
 \chapter{Verifica e validazione}
 \label{chap:verifica-validazione}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[alt={Testo alternativo dell'immagine}, width=1\columnwidth]{img/quantum_superposition.jpeg}
-    \caption{Lorem}
-    \label{fig:enter-label}
-\end{figure}
+Il presente capitolo descrive le attività di testing e valutazione effettuate al fine di verificare il corretto funzionamento delle funzionalità implementate 
+durante l'attività di stage. Le modalità di verifica sono state definite in funzione della natura dei diversi componenti sviluppati, distinguendo tra funzionalità 
+caratterizzate da un comportamento deterministico e componenti basate sull'utilizzo di modelli linguistici.
+\newline
+Per il sistema di generazione degli alert sono stati realizzati unit test volti a verificare individualmente le regole implementate, utilizzando dati controllati e simulati 
+per valutare il corretto rilevamento delle condizioni previste. Per il modulo XAI è stata invece adottata una metodologia di valutazione automatizzata delle risposte generate 
+dal modello linguistico, attraverso specifiche classi di \textit{eval} in grado di analizzare le risposte ottenute a partire da richieste note e verificarne il rispetto dei 
+criteri definiti.
+\newline
+Le sezioni successive descrivono nel dettaglio le strategie adottate per le due componenti, illustrando le modalità di esecuzione dei test e i criteri utilizzati per valutarne 
+i risultati.
 
-\lipsum[1-2]
+\section{Test delle regole alert}
+Il metodo utilizzato per verificare il corretto funzionamento delle regole alert è basato sull'utilizzo di \textit{Unit Test}. Nella cartella 
+\texttt{tests/alerts} sono stati sviluppati undici test, uno per ciascuna regola implementata. Tutti i test seguono una struttura comune, in modo da garantire uniformità 
+nella verifica delle diverse funzionalità.
+\newline
+La preparazione dei dati necessari all'esecuzione dei test avviene attraverso i seguenti passaggi:
+\begin{itemize}
+    \item utilizzo delle \textbf{factory}, definite nella cartella \texttt{database/factories}, che permettono di creare istanze dei modelli Eloquent utilizzando dati controllati e 
+        specifici per l'ambiente di testing;
+    \item creazione dei modelli necessari alla verifica della singola regola, includendo anche i parametri opzionali che possono essere configurati dall'utente;
+    \item definizione di una matrice di test contenente i diversi casi da verificare, specificando per ciascuno i dati forniti alla regola e il risultato atteso dal metodo 
+        \texttt{check}.
+\end{itemize}
 
-% Esempio di come importare un file contenente codice
-Lorem ipsum:
+L'utilizzo della matrice di test permette di verificare, attraverso un'unica struttura, sia i casi in cui le condizioni della regola vengono soddisfatte e deve quindi essere 
+rilevata una violazione, sia i casi in cui non deve essere generato alcun alert.
+\newline
+L'ambiente di testing è configurato tramite il file \texttt{phpunit.xml}, nel quale vengono definite le impostazioni utilizzate durante l'esecuzione dei test, tra cui il database 
+di test, le modalità di connessione e le configurazioni relative agli altri servizi utilizzati dall'applicazione.
+
 \begin{listing}[H]
-\inputminted{python}{code/example.py}
-\caption{Fibonacci recursive}
-\label{listing:py_fibo}
+\captionsetup{type=listing, belowskip=0pt}
+\inputminted[fontsize=\small, breaklines, breakanywhere=true, linenos=true, bgcolor=gray!10]{php}{code/test.php}
+\caption{Esempio di una funzione di test per la regola BuyOrdersRule}
+\label{listing:php_test}
 \end{listing}
 
-\lipsum[1]
+\section{Test del modulo XAI}
+Data la natura non deterministica dei modelli linguistici, il testing del modulo XAI presenta alcune difficoltà rispetto alla verifica delle funzionalità tradizionali. La stessa 
+richiesta può infatti produrre risposte differenti tra un'esecuzione e l'altra, pur risultando corrette dal punto di vista del contenuto. Per questo motivo, non è possibile 
+basare la valutazione esclusivamente sul confronto diretto tra la risposta ottenuta e una risposta attesa.
+\newline
+Per valutare il comportamento del modulo è stato quindi sviluppato il comando \texttt{php artisan ai:eval}, che ricerca i file JSON contenenti i casi di test e le relative 
+richieste da sottoporre al modello. Ogni richiesta viene eseguita dieci volte, permettendo di valutare il comportamento del modulo su più generazioni della stessa richiesta e 
+di tenere conto della variabilità delle risposte prodotte dall'LLM.
+\newline
+Per ciascun caso di test vengono definite delle aspettative relative al contenuto che il modello dovrebbe fornire. Poiché la stessa informazione può essere espressa utilizzando 
+forme linguistiche differenti, è stata implementata la classe \texttt{ExpectationResolver}, che si occupa di normalizzare i valori utilizzati nella valutazione. In particolare, 
+vengono gestiti valori quali date, numeri e stringhe, permettendo di confrontare il contenuto delle informazioni ottenute senza richiedere una corrispondenza lessicale esatta.
+\newline
+La classe \texttt{BehaviourGrader} valuta invece il comportamento del modello durante l'elaborazione della richiesta. In particolare, verifica i tool utilizzati, il loro ordine 
+di invocazione, i modelli interessati dalle operazioni e le operazioni effettuate sul database. Questo permette di verificare non solo il risultato finale, ma anche che il 
+modello abbia seguito il comportamento previsto per raggiungerlo.
+\newline
+La classe \texttt{AnswerGrader} si occupa della valutazione della risposta finale prodotta dal modello, verificandone il contenuto e la capacità di fornire all'utente una 
+risposta coerente con le aspettative definite per il caso di test.
+\newline
+Infine, la classe \texttt{AiChatEvalCommand} coordina le diverse componenti di valutazione, eseguendo i casi di test e raccogliendo i risultati prodotti dai diversi 
+\textit{grader}. Oltre alla correttezza della risposta e del comportamento del modello, vengono registrate ulteriori informazioni relative all'esecuzione, tra cui il tempo 
+necessario per ottenere la risposta e il numero di token utilizzati. In questo modo è possibile ottenere una valutazione complessiva del comportamento del modulo XAI, 
+considerando sia la correttezza delle risposte sia i costi computazionali associati alla loro generazione.
+
+
+\section{Continuous Integration}
+A completamento delle attività di testing, il progetto utilizza un processo di \textit{Continuous Integration (CI)} finalizzato a verificare automaticamente le modifiche 
+introdotte nel codice. Ogni \textit{Pull Request} aperta sul repository viene sottoposta a una serie di controlli automatici prima di poter essere integrata nel ramo di 
+\textit{develop}.
+\newline
+In particolare, la pipeline esegue \textit{PHPStan}, attraverso la configurazione adottata dal progetto, per effettuare l'analisi statica del codice e individuare possibili 
+errori o comportamenti non conformi ai tipi e alle strutture previste. Viene inoltre eseguito \textit{PHP Insights}, utilizzato per verificare la qualità complessiva del codice 
+e individuare eventuali problematiche relative alla sua struttura e manutenibilità.
+\newline
+La \textit{Pull Request} può essere integrata nel ramo di sviluppo solamente dopo il superamento di tutti i controlli previsti dalla pipeline. In questo modo, ogni modifica 
+viene sottoposta automaticamente a una verifica prima di essere integrata, riducendo il rischio di introdurre codice non conforme agli standard adottati dal progetto e 
+contribuendo a mantenere la qualità e la stabilità del codice.
+
+\section{Validazione}
+Per verificare la soddisfazione dei requisiti di qualità sono state svolte, periodicamente, attività di validazione in presenza del tutor aziendale, con l'obiettivo di valutare 
+il comportamento dell'applicazione in scenari rappresentativi del reale dominio di utilizzo.
+\newline
+A tale scopo sono stati eseguiti diversi scenari utilizzando dati provenienti da dump forniti dall'azienda proponente, così da rendere le condizioni di prova il più possibile 
+aderenti a quelle presenti nell'ambiente reale. Le attività di validazione hanno riguardato principalmente le prestazioni del motore di alert, i tempi di risposta e la coerenza 
+delle risposte del modulo XAI e la correttezza delle informazioni registrate dal sistema di logging.
+
+\subsection{Esecuzione del motore alert su dati reali}
+È stato eseguito il comando \texttt{alert} dopo aver abilitato diverse regole alert per molteplici utenti, con l'obiettivo di valutare il comportamento del motore in presenza 
+di una quantità significativa di dati. Durante l'esecuzione sono stati monitorati i tempi necessari per completare le verifiche delle regole, verificando che l'elaborazione non 
+richiedesse tempi tali da compromettere il normale funzionamento del sistema.
+\newline
+La prova ha inoltre permesso di verificare la tempestività nella generazione e nell'invio delle notifiche, valutando quindi il rispetto dei requisiti relativi ai tempi di 
+risposta del sistema di alert.
+
+\subsection{Richiesta di spiegazioni al modulo XAI su dati reali}
+Sono state effettuate molteplici richieste al modulo XAI utilizzando dati reali e simulando anche richieste concorrenti. L'obiettivo della prova è stato verificare che 
+l'infrastruttura scelta per l'hosting del modello linguistico fosse in grado di gestire le richieste con tempi di risposta accettabili e che le spiegazioni prodotte risultassero 
+coerenti con i dati effettivamente presenti nel sistema.
+\newline
+Le richieste sono state inoltre utilizzate per verificare il corretto funzionamento dell'interazione tra il modulo XAI, i tool disponibili e i dati del gestionale, assicurandosi 
+che le informazioni riportate nelle risposte fossero riconducibili ai dati effettivamente recuperati dal sistema.
+
+\subsection{Verifica del logging delle operazioni su dati reali}
+Sono state eseguite molteplici operazioni di creazione, modifica ed eliminazione su dati già presenti nel sistema, utilizzando i dati forniti dagli stakeholder. Per 
+ciascuna operazione è stata verificata la corretta registrazione delle informazioni all'interno del sistema di audit, controllando in particolare l'operazione effettuata, 
+l'utente responsabile, la data e le modifiche apportate ai dati.
+\newline
+La prova ha inoltre permesso di verificare la corretta visualizzazione delle informazioni registrate e la facilità di consultazione dello storico delle operazioni, con 
+l'obiettivo di garantire un'interfaccia semplice e intuitiva per l'analisi dei log.
+
+\subsection{Risultati}
+Le attività di validazione si sono rivelate fondamentali per individuare alcune criticità di utilizzo che non erano emerse durante le precedenti fasi di sviluppo e testing. 
+A seguito dell'individuazione di tali problematiche sono state apportate le opportune correzioni e sono state ripetute le prove di validazione.
+\newline
+Al termine delle attività, tutti gli scenari di validazione hanno prodotto risultati conformi alle aspettative. In accordo con il tutor aziendale, è stata quindi confermata 
+la corretta integrazione e l'adeguatezza dei moduli implementati rispetto al dominio di utilizzo dell'azienda committente.
+\newpage
+
+\section{Tracciamento dei requisiti}
+Nelle successive tabelle vengono riportati gli stati di tutti i requisiti identificati durante l'attività di analisi dei requisiti.
+\subsection{Requisti funzionali}
+\keepXColumns
+\rowcolors{2}{lightblue}{white}
+    \begin{longtable}{|l|p{0.55\textwidth}|l|}
+        \hline
+        \rowcolor{gold}
+        \textbf{Codice} & \textbf{Descrizione requisito} & \textbf{Soddisfatto} \\
+        \hline
+        \endhead
+
+        \hline
+        \rowcolor{white}
+        \caption{Tabella riguardante lo stato dei requisiti funzionali del progetto alla fine del periodo di stage} \label{tab:requisiti_stato_funzionali} \\
+        \endlastfoot 
+
+        \textbf{RFN-1} & Configurazione del modulo XAI & Sì \\
+        \hline
+        \textbf{RFN-2} & Selezione del modello LLM per il modulo XAI & Sì \\
+        \hline
+        \textbf{RFN-3} & Configurazione degli utenti abilitati al modulo XAI & Sì \\
+        \hline
+        \textbf{RFN-4} & Configurazione dei tool disponibili per il modulo XAI & Sì \\
+        \hline
+        \textbf{RFN-5} & Richiesta di spiegazioni al modulo XAI su una decisione del sistema & Sì \\
+        \hline
+        \textbf{RFN-6} & Gestione della conversazione con il modulo XAI & Sì \\
+        \hline
+        \textbf{RFN-7} & Chiamata a tool per spiegazioni del modulo XAI & Sì \\
+        \hline
+        \textbf{RFN-8} & Modello LLM non raggiungibile & Sì \\
+        \hline
+        \textbf{RFN-9} & Limite token di risposta superato & Sì \\
+        \hline
+        \textbf{RFN-10} & Permessi non sufficienti per effettuare la richiesta & Sì \\
+        \hline
+        \textbf{RFN-11} & Richiesta creazione nuovi record & Sì \\
+        \hline
+        \textbf{RFN-12} & Chiamata al tool per creazione record del modulo XAI & Sì \\
+        \hline
+        \textbf{RFN-13} & Dati forniti incorretti per la creazione del record & Sì \\
+        \hline
+        \textbf{RFN-14} & Configurazione delle regole alert & Sì \\
+        \hline
+        \textbf{RFN-15} & Visualizzazione delle notifiche alert & Sì \\
+        \hline
+        \textbf{RFN-16} & Numero elevato di violazioni rilevate & Sì \\
+        \hline
+        \textbf{RFN-17} & Visualizzazione del dettaglio dell'alert & Sì \\
+        \hline
+        \textbf{RFN-18} & Visualizzazione del modello associato all'alert & Sì \\
+        \hline
+        \textbf{RFN-19} & Richiesta al modulo XAI di una spiegazione relativa all'alert generato & Sì \\
+        \hline
+        \textbf{RFN-20} & Visualizzazione log operazioni & Sì \\
+        \hline
+        \textbf{RFN-21} & Visualizzazione dei dettagli di un'operazione & Sì \\
+        \hline
+    \end{longtable}
+
+\newpage
+
+\subsection{Requisti di qualità}
+\keepXColumns
+\rowcolors{2}{lightblue}{white}
+    \begin{longtable}{|l|p{0.55\textwidth}|l|}
+        \hline
+        \rowcolor{gold}
+        \textbf{Codice} & \textbf{Descrizione requisito} & \textbf{Soddisfatto} \\
+        \hline
+        \endhead
+
+        \hline
+        \rowcolor{white}
+        \caption{Tabella riguardante lo stato dei requisiti di qualità del progetto alla fine del periodo di stage} \label{tab:requisiti_stato_qualitativi} \\
+        \endlastfoot 
+
+        \textbf{RQN-1} & Il sistema deve garantire tempi di risposta adeguati nell'interazione con il modulo XAI, evitando attese non necessarie da parte dell'utente & Sì \\
+        \hline
+        \textbf{RQN-2} & Il sistema deve garantire la sicurezza delle informazioni, impedendo agli utenti di accedere a dati per i quali non possiedono i permessi necessari & Sì \\
+        \hline
+        \textbf{RQN-3} & Il sistema deve garantire la tracciabilità delle operazioni effettuate sui dati, registrando creazione, modifica ed eliminazione dei modelli & Sì \\
+        \hline
+        \textbf{RQN-4} & Le spiegazioni generate dal modulo XAI devono essere comprensibili per l'utente e presentate in linguaggio naturale & Sì \\
+        \hline
+        \textbf{RQN-5} & Il sistema deve garantire tempi di risposta adeguati durante il recupero dei dati e nella conseguente generazione e notifica degli alert & Sì \\
+        \hline
+        \textbf{RQN-6} & Il sistema deve notificare tempestivamente l'utente in caso di eccezioni nell'uso di modulo XAI e alert per ridurre le attese inutili & Sì \\
+    \end{longtable}
+
+
+\subsection{Requisti di vincolo}
+\keepXColumns
+\rowcolors{2}{lightblue}{white}
+    \begin{longtable}{|l|p{0.55\textwidth}|l|}
+        \hline
+        \rowcolor{gold}
+        \textbf{Codice} & \textbf{Descrizione requisito} & \textbf{Soddisfatto} \\
+        \hline
+        \endhead
+
+        \hline
+        \rowcolor{white}
+        \caption{Tabella riguardante lo stato dei requisiti di vincolo del progetto alla fine del periodo di stage} \label{tab:requisiti_stato_vincolo} \\
+        \endlastfoot 
+
+        \textbf{RVN-1} & Il sistema deve essere sviluppato in PHP & Sì \\
+        \hline
+        \textbf{RVN-2} & L'interfaccia grafica deve essere sviluppata in Filament & Sì \\
+        \hline
+        \textbf{RVN-3} & Il modulo XAI deve fornire le spiegazioni generate in lingua italiana & Sì \\
+        \hline
+        \textbf{RVN-4} & L'integrazione con i modelli linguistici deve avvenire attraverso le API messe a disposizione dai relativi provider & Sì \\
+        \hline
+    \end{longtable}
+
+Dall'attività di verifica finale è emerso che tutti i requisiti obbligatori individuati in fase di analisi sono stati soddisfatti con successo.
+
+
+
 
 \newpage
