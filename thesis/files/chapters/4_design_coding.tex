@@ -7,7 +7,7 @@
 
 
 \subsection{Linguaggi di programmazione}
-\textbf{PHP} è un linguaggio di programmazione general purpose particolarmente diffuso nello sviluppo di applicazioni web lato server. È stato scelto come linguaggio 
+\textbf{PHP} è un linguaggio di programmazione general purpose particolarmente diffuso nello sviluppo di applicazioni web lato server. È stato scelto, in versione 8.3, come linguaggio 
 principale per il backend di \textit{ErpAI} grazie alla sua maturità, alla vasta disponibilità di librerie e strumenti per lo sviluppo web e alla sua integrazione con il framework 
 Laravel. Un ulteriore vantaggio è la possibilità di sviluppare applicazioni strutturate e facilmente manutenibili attraverso le funzionalità offerte dalle versioni moderne 
 del linguaggio.
@@ -17,12 +17,12 @@ del linguaggio.
 \subsubsection{Laravel}
 \textbf{Laravel} è un framework PHP open source progettato per lo sviluppo di applicazioni web. Fornisce una struttura organizzata per la realizzazione del backend e 
 mette a disposizione funzionalità per la gestione delle richieste HTTP, del routing, dell'accesso al database, dell'autenticazione e delle operazioni asincrone. 
-È stato scelto per la sua ampia dotazione di funzionalità integrate, per la facilità di sviluppo e manutenzione del codice e per l'integrazione con gli altri componenti 
+È stato scelto, in versione 11.x, per la sua ampia dotazione di funzionalità integrate, per la facilità di sviluppo e manutenzione del codice e per l'integrazione con gli altri componenti 
 utilizzati nel progetto.
 
 \subsubsection{Filament}
 \textbf{Filament} è un framework per Laravel dedicato alla realizzazione di pannelli amministrativi e interfacce gestionali. Permette di costruire rapidamente risorse, tabelle, 
-form e pagine attraverso componenti già pronti e fortemente integrati con Laravel. È stato scelto per semplificare la realizzazione dell'interfaccia gestionale di \textit{ErpAI}, 
+form e pagine attraverso componenti già pronti e fortemente integrati con Laravel. È stato scelto, in versione 3.x, per semplificare la realizzazione dell'interfaccia gestionale di \textit{ErpAI}, 
 riducendo il codice necessario per implementare le funzionalità di amministrazione e mantenendo una stretta integrazione con il backend.
 
 \subsubsection{Livewire}
@@ -32,28 +32,28 @@ Essendo la tecnologia su cui si basa Filament, la sua adozione garantisce la mas
 
 \subsection{Tecnologie di persistenza e gestione dei dati}
 \subsubsection{MariaDB}
-\textbf{MariaDB} è un sistema di gestione di database relazionale open source, compatibile con SQL. È stato scelto come database dell'applicazione per la sua affidabilità, 
+\textbf{MariaDB} è un sistema di gestione di database relazionale open source, compatibile con SQL. È stato scelto, in versione 10.11, come database dell'applicazione per la sua affidabilità, 
 le buone prestazioni e l'integrazione con Laravel tramite il sistema di astrazione del database fornito dal framework. Il modello relazionale risulta inoltre particolarmente 
 adatto alla gestione delle numerose entità e relazioni presenti in un gestionale aziendale.
 
 \subsubsection{Redis}
 \textbf{Redis} è un sistema di gestione dati in memoria utilizzabile come database, cache e sistema di gestione delle code. La sua caratteristica principale è la possibilità di 
-effettuare operazioni molto rapide grazie alla gestione dei dati prevalentemente in memoria. Nel progetto viene utilizzato per la gestione della cache e delle code, consentendo 
+effettuare operazioni molto rapide grazie alla gestione dei dati prevalentemente in memoria. Nel progetto viene utilizzato, nella versione 7, per la gestione della cache e delle code, consentendo 
 di separare le operazioni più onerose dal normale ciclo di elaborazione delle richieste.
 
 \subsubsection{Laravel Horizon}
 \textbf{Laravel Horizon} è un componente dell'ecosistema Laravel dedicato al monitoraggio e alla gestione delle code basate su Redis. Fornisce un'interfaccia per controllare i 
-processi in esecuzione, le attività completate e quelle fallite, oltre a informazioni sulle prestazioni delle code. È stato scelto per semplificare la gestione delle operazioni 
+processi in esecuzione, le attività completate e quelle fallite, oltre a informazioni sulle prestazioni delle code. È stato scelto, nella versione 5.x, per semplificare la gestione delle operazioni 
 asincrone del progetto e permettere di monitorarne lo stato direttamente dall'applicazione.
 
 \subsection{Ambiente di sviluppo e containerizzazione}
 
-\subsubsection{Docker}
+\subsubsection{Docker latest}
 \textbf{Docker} è una piattaforma di containerizzazione che permette di eseguire applicazioni e servizi all'interno di ambienti isolati chiamati container. I container consentono 
 di distribuire insieme all'applicazione le dipendenze necessarie, riducendo le differenze tra gli ambienti di sviluppo ed esecuzione. Nel progetto viene utilizzato come base 
 dell'ambiente di sviluppo e per l'esecuzione isolata dei diversi servizi.
 
-\subsubsection{DDEV}
+\subsubsection{DDEV latest}
 \textbf{DDEV} è un ambiente di sviluppo locale, basato su Docker, progettato per semplificare la configurazione di applicazioni web e dei relativi servizi. Utilizza la 
 containerizzazione per fornire agli sviluppatori un ambiente riproducibile e isolato. È stato scelto per rendere uniforme l'ambiente di sviluppo tra i membri del team e 
 semplificare la configurazione dei servizi necessari all'esecuzione di \textit{ErpAI}.
@@ -213,25 +213,6 @@ selezionato.
 Infine, \texttt{AiChatService} espone il metodo \texttt{sendMessage}, che coordina l'invio della richiesta al modello linguistico. Il metodo raccoglie il contesto della 
 conversazione, il modello configurato, i tool disponibili e il messaggio dell'utente, delegando quindi al provider la gestione della comunicazione con il modello e restituendo 
 il risultato alla componente chiamante.
-
-\subsection{Sistema di generazione alert}
-La logica del sistema di generazione alert è organizzato in varie componenti.
-
-\subsubsection{Rules}
-Le rules permettono di effettuare ricerche al database periodicamente per ricercare delle violazioni delle regole settate. La maggior parte delle regole non sono generali ma 
-permettono all'utente di settare parametri opzionali per personalizzare le notifiche che questo ha necessità ricevere. 
-\newline
-Queste, come i tool forniscono un interfaccia base \texttt{AlertRuleContract} che fornisce il contratto per tutte le sottoclassi figlie, una classe astratta \texttt{AlertRule} 
-che fornisce un implementazione per i metodi comuni (in questo caso i metodi che permettono alla rule di accedere ai parametri settati dall'utente e che gestiscono i permessi di
-utilizzo).
-\newline
-Infine si ha l'implementazione vera e propria della regola, contenente i metadati utilizzati per la UI e i metodi \texttt{check}, utilizzato per effettuare le query a database
-per trovare le violazioni della stessa e \texttt{toAlert}, la quale formatta le informazioni ricevute e ritorna un \acrfull{dto} che verrà poi adattato in un alert.
-\newline 
-Le regole alert implementate rispondono a varie esigenze degli utenti finali di \textit{ErpAI} e sono state implementate per poter rispondere tempestivamente a queste esigenze.
-Alcuni esempi comprendono \textit{LateBuyOrdersRule} e \textit{LateInvoicesRule} le quali ritornano notifiche riguardanti gli ordini (di acquisto o di vendita rispettivamente) in
-ritardo rispetto alle aspettative, \textit{SchedulingErrorsRule} la quale segnala errori e discrepanze nei prodcessi di scehduling della produzione, oppure 
-\textit{PausedMachineRule} la quale ritorna le macchine che non stanno eseguendo alcuna lavorazione, compreso di tempistiche e causa della pausa.
 
 
 \subsection{Sistema di generazione degli alert}
