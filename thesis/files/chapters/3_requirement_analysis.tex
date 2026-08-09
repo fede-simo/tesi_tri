@@ -69,6 +69,14 @@ chiara e immediata la comprensione delle funzionalità descritte.
 \section{Elenco casi d'uso}
 
 \subsection{UC1: Configurazione del modulo XAI}
+
+\begin{figure}[H]
+\centering
+\includegraphics[alt={UC1}, height=8cm]{img/usecase/uc1.jpg}
+\caption{Diagramma UML riguardante UC1}
+\label{fig:uc-1}
+\end{figure}
+
 \label{uc:uc1}
     \begin{itemize}
         \item \textbf{Attori:} Utente amministratore.
@@ -144,6 +152,14 @@ chiara e immediata la comprensione delle funzionalità descritte.
 
 
 \subsection{UC2: Richiesta di spiegazioni al modulo XAI su una decisione del sistema}
+
+\begin{figure}[H]
+\centering
+\includegraphics[alt={UC2}, height=8cm, width=16cm]{img/usecase/uc2.jpg}
+\caption{Diagramma UML riguardante UC2}
+\label{fig:uc-2}
+\end{figure}
+
 \label{uc:uc2}
     \begin{itemize}
         \item \textbf{Attori:} Utente, Modulo XAI.
@@ -270,6 +286,14 @@ chiara e immediata la comprensione delle funzionalità descritte.
 
 \subsection{UC3: Richiesta creazione nuovi record}
 \label{uc:uc3}
+
+\begin{figure}[H]
+\centering
+\includegraphics[alt={UC3}, height=8cm, width=16cm]{img/usecase/uc3.jpg}
+\caption{Diagramma UML riguardante UC3}
+\label{fig:uc-3}
+\end{figure}
+
     \begin{itemize}
         \item \textbf{Attori:} Utente, Modulo XAI.
         \item \textbf{Precondizioni:} 
@@ -298,7 +322,7 @@ chiara e immediata la comprensione delle funzionalità descritte.
         \item \textbf{Inclusioni:}
             \begin{enumerate}
                 \item \hyperref[uc:uc2.1]{UC2.1: Gestione della conversazione con il modulo XAI}
-                \item \hyperref[uc:uc3.1]{UC3.1: Chiamata a tool del modulo XAI}
+                \item \hyperref[uc:uc3.1]{UC3.1: Chiamata a tool per creazione record del modulo XAI}
             \end{enumerate}
         \item \textbf{Estensioni:}
             \begin{enumerate}
@@ -354,6 +378,14 @@ chiara e immediata la comprensione delle funzionalità descritte.
     % ---------------------------------------------------------------------------------------------------------------------------
 
 \subsection{UC4: Configurazione delle regole alert}
+
+\begin{figure}[H]
+\centering
+\includegraphics[alt={UC4}, height=5.5cm]{img/usecase/uc4.jpg}
+\caption{Diagramma UML riguardante UC4}
+\label{fig:uc-4}
+\end{figure}
+
 \label{uc:uc4}
     \begin{itemize}
         \item \textbf{Attori:} Utente.
@@ -373,6 +405,14 @@ chiara e immediata la comprensione delle funzionalità descritte.
     \end{itemize}
 
 \subsection{UC5: Visualizzazione delle notifiche alert}
+
+\begin{figure}[H]
+\centering
+\includegraphics[alt={UC5}, height=5.5cm]{img/usecase/uc5.jpg}
+\caption{Diagramma UML riguardante UC5}
+\label{fig:uc-5}
+\end{figure}
+
 \label{uc:uc5}
     \begin{itemize}
         \item \textbf{Attori:} Utente.
@@ -417,6 +457,14 @@ chiara e immediata la comprensione delle funzionalità descritte.
 \end{itemize} 
 
 \subsection{UC6: Visualizzazione del dettaglio dell'alert}
+
+\begin{figure}[H]
+\centering
+\includegraphics[alt={UC6}, height=5.5cm]{img/usecase/uc6.jpg}
+\caption{Diagramma UML riguardante UC6}
+\label{fig:uc-6}
+\end{figure}
+
 \label{uc:uc6}
 \begin{itemize}
     \item \textbf{Attori:} Utente.
@@ -433,7 +481,16 @@ chiara e immediata la comprensione delle funzionalità descritte.
         \end{enumerate}
 \end{itemize} 
 
-\subsection{UC7: Visualizzazione del modello associato dell'alert}
+\subsection{UC7: Visualizzazione del modello associato all'alert}
+
+\begin{figure}[H]
+\centering
+\includegraphics[alt={UC7}, height=5.5cm]{img/usecase/uc7.jpg}
+\caption{Diagramma UML riguardante UC7}
+\label{fig:uc-7}
+\end{figure}
+
+
 \label{uc:uc7}
 \begin{itemize}
     \item \textbf{Attori:} Utente.
@@ -454,6 +511,14 @@ chiara e immediata la comprensione delle funzionalità descritte.
 \end{itemize} 
 
 \subsection{UC8: Richiesta al modulo XAI di una spiegazione relativa all'alert generato}
+
+\begin{figure}[H]
+\centering
+\includegraphics[alt={UC8}, height=7.5cm, width=16cm]{img/usecase/uc8.jpg}
+\caption{Diagramma UML riguardante UC8}
+\label{fig:uc-8}
+\end{figure}
+
 \label{uc:uc8}
 \begin{itemize}
     \item \textbf{Attori:} Utente, Modulo XAI.
@@ -471,7 +536,7 @@ chiara e immediata la comprensione delle funzionalità descritte.
             \item L'utente seleziona la funzione per richiedere una spiegazione dell'alert.
             \item Il sistema attiva la \textit{sidebar} relativa al modulo XAI sulla conversazione precedentemente utilizzata dall'utente.
             \item Il sistema invia al modulo XAI le informazioni relative all'alert come contesto della richiesta.
-            \item Il modulo XAI elabora le informazioni ricevute.
+            \item Il modulo XAI effettua una chiamata a tool per poter ricevere i dati (\hyperref[uc:uc2.2]{UC2.2}).
             \item Il modulo XAI fornisce una spiegazione relativa alla causa dell'alert.
             \item Il sistema mostra la spiegazione all'utente.
         \end{enumerate}
@@ -481,15 +546,27 @@ chiara e immediata la comprensione delle funzionalità descritte.
                 \item Le informazioni recuperate superano il limite massimo di token elaborabili dal modello (\hyperref[uc:uc2.4]{UC2.4}).
                 \item L'utente non dispone dei permessi necessari per visualizzare le informazioni richieste (\hyperref[uc:uc2.5]{UC2.5}).
             \end{enumerate}
-        \item \textbf{Estensioni:}
-            \begin{enumerate}
-                \item \hyperref[uc:uc2.3]{UC2.3: Modello LLM non raggiungibile}
-                \item \hyperref[uc:uc2.4]{UC2.4: Limite token di risposta superato}
-                \item \hyperref[uc:uc2.5]{UC2.5: Permessi non sufficienti per effettuare la richiesta}
-            \end{enumerate}
+    \item \textbf{Inclusioni:}
+        \begin{enumerate}
+            \item \hyperref[uc:uc2.2]{UC2.2: Chiamata a tool per spiegazioni del modulo XAI}
+        \end{enumerate}
+    \item \textbf{Estensioni:}
+        \begin{enumerate}
+            \item \hyperref[uc:uc2.3]{UC2.3: Modello LLM non raggiungibile}
+            \item \hyperref[uc:uc2.4]{UC2.4: Limite token di risposta superato}
+            \item \hyperref[uc:uc2.5]{UC2.5: Permessi non sufficienti per effettuare la richiesta}
+        \end{enumerate}
 \end{itemize}
 
 \subsection{UC9: Visualizzazione log operazioni}
+
+\begin{figure}[H]
+\centering
+\includegraphics[alt={UC9}, height=5.5cm]{img/usecase/uc9.jpg}
+\caption{Diagramma UML riguardante UC9}
+\label{fig:uc-9}
+\end{figure}
+
 \label{uc:uc9}
     \begin{itemize}
         \item \textbf{Attori:} Utente.
@@ -508,6 +585,14 @@ chiara e immediata la comprensione delle funzionalità descritte.
     \end{itemize} 
 
 \subsection{UC10: Visualizzazione dei dettagli di un'operazione}
+
+\begin{figure}[H]
+\centering
+\includegraphics[alt={UC10}, height=5.5cm]{img/usecase/uc10.jpg}
+\caption{Diagramma UML riguardante UC10}
+\label{fig:uc-10}
+\end{figure}
+
 \label{uc:uc10}
 \begin{itemize}
     \item \textbf{Attori:} Utente.
@@ -597,7 +682,7 @@ delineati in fase di analisi.
         \hline
         \textbf{RFN-17} & Visualizzazione del dettaglio dell'alert & UC6 & N \\
         \hline
-        \textbf{RFN-18} & Visualizzazione del modello associato dell'alert & UC7 & N \\
+        \textbf{RFN-18} & Visualizzazione del modello associato all'alert & UC7 & N \\
         \hline
         \textbf{RFN-19} & Richiesta al modulo XAI di una spiegazione relativa all'alert generato & UC8 & N \\
         \hline
