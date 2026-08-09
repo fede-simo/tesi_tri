@@ -81,17 +81,17 @@ L'attività di stage non ha previsto una modifica dell'architettura generale del
 XAI e del sistema di alert. Le nuove funzionalità sono state integrate nell'architettura esistente, riutilizzandone i meccanismi di autenticazione, autorizzazione, accesso ai dati 
 e gestione delle operazioni asincrone.
 
-\subsection{Modulo XAI}
+Per quanto riguarda l'implementazione dei moduli, è stata adottata una struttura comune basata sulla separazione tra interfaccia, implementazione condivisa e logica specifica delle singole componenti. Tale organizzazione consente di mantenere una struttura omogenea tra i diversi moduli e di favorirne l'estendibilità.
 
+\begin{itemize}
+  \item \textbf{Contract:} interfaccia che dichiara i principali metodi che devono essere implementati dalle classi concrete. In questo modo viene definito un contratto 
+    comune per le diverse implementazioni, favorendo la compatibilità con le componenti esistenti e l'introduzione di nuove implementazioni.
+  \item \textbf{Abstract Class:} classe astratta che implementa il \texttt{Contract} e fornisce l'implementazione dei metodi comuni alle diverse classi concrete, come i metodi 
+    getter e setter. Le sottoclassi possono quindi concentrarsi sull'implementazione della logica specifica senza dover replicare il comportamento condiviso.
+  \item \textbf{Classi Concrete:} classi che estendono la \texttt{Abstract Class} e implementano la logica specifica della singola componente, differenziandosi in base alle 
+    funzionalità che devono fornire.
+\end{itemize}
 
-
-\subsection{Sistema di generazione alert}
-
-
-\subsection{Sistema di logging delle operazioni}
-
-
-\section{Design Pattern utilizzati}
 
 \newpage
 \section{Struttura del progetto}
@@ -101,14 +101,15 @@ erpai/
   ├── app/
   │    ├── Console/Commands/
   |    ├── Contracts/
-  |    |     ├── AiChat/
-  |    |     ├── Alerts/   
+  |    |     ├── AiChat/    - - - - - - - > AiToolContract.php       
+  |    |     ├── Alerts/    - - - - - - - > AlertRuleContract.php 
   |    ├── Filament/
   |    |     ├── Clusters/
   |    |     ├── Pages/
   |    |     └── Resources/
-  |    ├── Jobs/
+  |    ├── Jobs/            - - - - - - - > AlertJob.php / BroadcastAlertJob.php
   |    ├── Models/ 
+  |    ├─- Observers/       - - - - - - - > AuditObserver.php
   |    └── Services/
   |         ├── AiChat/
   |         |      ├── Eval/
@@ -126,6 +127,259 @@ erpai/
 \caption{Struttura del progetto}
 \label{listing:folders}
 \end{listing}
-% -shell-escape quando si compila
+
+\section{Componenti principali}
+\subsection{Modulo XAI}
+La logica del modulo XAI è organizzata all'interno della cartella \newline\texttt{app/Services/AiChat}. Al suo interno sono raccolte le componenti responsabili della gestione 
+dei provider dei modelli linguistici, dei tool, dei prompt e delle funzioni di valutazione (\textit{eval}), queste ultime descritte in dettaglio nella sezione dedicata al 
+testing.
+
+\subsubsection{Tool}
+I tool rappresentano il punto di accesso del modello linguistico ai dati e alle funzionalità del gestionale. Attraverso di essi il modello può richiedere informazioni 
+al sistema o eseguire operazioni, nel rispetto dei permessi configurati.
+\newline
+Ogni tool implementa l'interfaccia \texttt{AiToolContract}, che definisce le operazioni comuni che devono essere fornite dalle diverse implementazioni. In particolare, 
+il contratto espone i metodi necessari al recupero dei metadati del tool, utilizzati anche per la generazione delle relative etichette nell'interfaccia utente, alla definizione 
+dei permessi richiesti e all'esecuzione del tool.
+\newline
+L'interfaccia viene implementata dalla classe astratta \texttt{AbstractTool}, che fornisce il comportamento condiviso relativo alla gestione e alla verifica dei permessi. Le 
+singole classi concrete estendono quindi \texttt{AbstractTool} e implementano la logica specifica necessaria per accedere ai dati o alle funzionalità messe a disposizione dal 
+relativo tool.
+\newline
+Questa struttura permette di mantenere separata la logica comune da quella specifica dei singoli tool, facilitando l'introduzione di nuove funzionalità e mantenendo uniforme 
+la gestione delle autorizzazioni.
+
+\paragraph{FinderTool}
+Per illustrare l'implementazione dei tool viene considerato \texttt{FinderTool}, sviluppato per consentire al modello linguistico di accedere ai dati del gestionale e 
+utilizzare informazioni reali durante la generazione delle risposte, riducendo il rischio di produrre informazioni non presenti nel sistema.
+\newline
+Il tool è composto dai seguenti elementi principali:
+\begin{itemize}
+  \item \texttt{shortDescription}: descrizione sintetica esposta al modello linguistico, utilizzata per consentirgli di individuare il tool più appropriato in base alla 
+    richiesta dell'utente.
+  \item \texttt{description}: descrizione dettagliata contenente le istruzioni necessarie per guidare il modello nell'utilizzo corretto del tool.
+  \item \texttt{parameters()}: definizione, attraverso uno schema JSON, dei parametri che il modello deve fornire per poter eseguire il tool. Nel caso di \texttt{FinderTool}, 
+    lo schema specifica le operazioni da effettuare sui dati e i modelli Eloquent sui quali eseguire le interrogazioni.
+  \item \texttt{execute}: metodo responsabile dell'elaborazione dei parametri forniti dal modello e dell'esecuzione dell'operazione richiesta. Nel caso di \texttt{FinderTool}, i 
+    parametri definiti attraverso \texttt{parameters()} vengono elaborati per costruire ed eseguire una query sul database, consentendo di recuperare informazioni relative allo 
+    stato di una specifica entità del gestionale, come un ordine o una macchina. I risultati ottenuti vengono quindi restituiti al modello linguistico, che li utilizza per 
+    elaborare la risposta finale in linguaggio naturale.
+\end{itemize}
+
+\subsubsection{Provider}
+I provider rappresentano il livello di integrazione tra il modulo XAI e i modelli linguistici. Essi gestiscono le richieste provenienti dall'applicazione e si occupano di 
+comunicare con i servizi che espongono i modelli linguistici attraverso le relative API. In questo modo, la logica specifica necessaria per interagire con ciascun provider 
+viene separata dal resto del modulo XAI.
+\newline
+Ogni provider implementa l'interfaccia \texttt{AiProviderContract}, che definisce le operazioni comuni richieste dalle diverse implementazioni. In particolare, il contratto 
+espone i metodi necessari al recupero dei metadati dei modelli, utilizzati anche per la generazione delle relative etichette nell'interfaccia utente, nonché alla configurazione 
+delle modalità di \textit{thinking} e di \textit{streaming} e alla gestione della risposta elaborata dal modello linguistico.
+\newline
+L'interfaccia viene implementata dalla classe astratta \texttt{AbstractAiProvider}, che fornisce il comportamento condiviso tra le diverse implementazioni, occupandosi della 
+gestione dei parametri comuni e dell'interazione con i tool. Le singole classi concrete estendono quindi \texttt{AbstractAiProvider} e implementano la logica specifica richiesta 
+dai diversi provider e modelli.
+\newline
+Tra le funzionalità gestite dalle implementazioni concrete rientrano la gestione delle chiamate ai tool, il rispetto dei limiti imposti dal modello relativamente ai tempi di 
+elaborazione e al numero di token in ingresso e in uscita, la gestione della modalità di \textit{thinking}, quando supportata dal modello, e la gestione dello \textit{streaming}. 
+Quest'ultima permette di trasmettere la risposta progressivamente, suddividendola in più porzioni, riducendo così il tempo percepito dall'utente prima della visualizzazione del 
+contenuto.
+\newline
+Vi è infine il metodo \texttt{reply}, responsabile della gestione dell'interazione con il modello linguistico. Esso si occupa del caricamento dei tool disponibili, della 
+costruzione della conversazione e del relativo contesto, nonché della configurazione dei parametri relativi ai limiti e alle modalità di risposta. Una volta predisposti i 
+dati necessari, il metodo effettua la chiamata alle API del provider e restituisce la risposta elaborata dal modello.
+
+\paragraph{RunpodOllamaProvider}
+Per illustrare l'implementazione dei provider viene considerato \newline\texttt{RunpodOllamaProvider}, sviluppato per consentire al modulo XAI di utilizzare un modello linguistico 
+eseguito tramite Ollama\footnote{\cite{site:ollama}} su un'istanza Runpod\footnote{\cite{site:runpod}}. Durante lo sviluppo, questo provider è stato quello principalmente utilizzato, grazie alla disponibilità del modello open source 
+Qwen3.6:35B\footnote{\cite{site:qwen}} e alle prestazioni di risposta ottenute nell'ambiente di esecuzione utilizzato.
+\newline
+L'implementazione di \texttt{RunpodOllamaProvider} è volutamente ridotta, poiché la maggior parte della logica comune ai diversi provider è implementata all'interno di 
+\texttt{AbstractAiProvider}. La classe concreta si occupa principalmente di fornire i parametri specifici necessari per l'accesso al servizio, quali l'URL dell'API, la chiave 
+di autenticazione e i limiti relativi al numero di token supportati dal modello.
+
+\subsubsection{Services}
+I \texttt{Services} costituiscono il livello di coordinamento tra l'interfaccia utente e le componenti del modulo XAI. In questa componente è stata implementata la classe 
+\texttt{AiChatService}, responsabile della gestione delle principali operazioni necessarie per l'interazione con il chatbot.
+
+\paragraph{AiChatService}
+La classe \texttt{AiChatService} coordina l'intero ciclo di utilizzo del modulo XAI. In particolare, gestisce il contesto associato alla richiesta, composto dalle informazioni 
+provenienti dalla pagina del gestionale e dalla conversazione corrente. Il contesto permette al modello linguistico di interpretare correttamente anche richieste che, considerate 
+singolarmente, potrebbero risultare incomplete.
+\newline
+La classe si occupa inoltre della verifica dei permessi necessari per l'accesso alla \textit{sidebar} del chatbot e della gestione delle conversazioni, inclusa la creazione di 
+nuove conversazioni e il recupero di quelle precedentemente avviate. Un'ulteriore responsabilità riguarda la registrazione e la gestione dei tool disponibili per il provider 
+selezionato.
+\newline
+Infine, \texttt{AiChatService} espone il metodo \texttt{sendMessage}, che coordina l'invio della richiesta al modello linguistico. Il metodo raccoglie il contesto della 
+conversazione, il modello configurato, i tool disponibili e il messaggio dell'utente, delegando quindi al provider la gestione della comunicazione con il modello e restituendo 
+il risultato alla componente chiamante.
+
+\subsection{Sistema di generazione alert}
+La logica del sistema di generazione alert è organizzato in varie componenti.
+
+\subsubsection{Rules}
+Le rules permettono di effettuare ricerche al database periodicamente per ricercare delle violazioni delle regole settate. La maggior parte delle regole non sono generali ma 
+permettono all'utente di settare parametri opzionali per personalizzare le notifiche che questo ha necessità ricevere. 
+\newline
+Queste, come i tool forniscono un interfaccia base \texttt{AlertRuleContract} che fornisce il contratto per tutte le sottoclassi figlie, una classe astratta \texttt{AlertRule} 
+che fornisce un implementazione per i metodi comuni (in questo caso i metodi che permettono alla rule di accedere ai parametri settati dall'utente e che gestiscono i permessi di
+utilizzo).
+\newline
+Infine si ha l'implementazione vera e propria della regola, contenente i metadati utilizzati per la UI e i metodi \texttt{check}, utilizzato per effettuare le query a database
+per trovare le violazioni della stessa e \texttt{toAlert}, la quale formatta le informazioni ricevute e ritorna un \acrfull{dto} che verrà poi adattato in un alert.
+\newline 
+Le regole alert implementate rispondono a varie esigenze degli utenti finali di \textit{ErpAI} e sono state implementate per poter rispondere tempestivamente a queste esigenze.
+Alcuni esempi comprendono \textit{LateBuyOrdersRule} e \textit{LateInvoicesRule} le quali ritornano notifiche riguardanti gli ordini (di acquisto o di vendita rispettivamente) in
+ritardo rispetto alle aspettative, \textit{SchedulingErrorsRule} la quale segnala errori e discrepanze nei prodcessi di scehduling della produzione, oppure 
+\textit{PausedMachineRule} la quale ritorna le macchine che non stanno eseguendo alcuna lavorazione, compreso di tempistiche e causa della pausa.
+
+
+\subsection{Sistema di generazione degli alert}
+La logica del sistema di generazione degli alert è organizzata in diverse componenti, ciascuna con una responsabilità specifica. Il sistema è basato su un insieme di 
+regole configurabili che verificano periodicamente lo stato del gestionale e individuano eventuali condizioni che richiedono l'intervento dell'utente.
+
+\subsubsection{Rules}
+Le \textit{rules} rappresentano le componenti responsabili della verifica delle condizioni che possono generare un alert. Esse effettuano interrogazioni al database per 
+individuare eventuali violazioni delle regole configurate dall'utente. La maggior parte delle regole prevede inoltre parametri configurabili, che permettono di personalizzare 
+le condizioni di attivazione degli alert in base alle esigenze dell'utente.
+\newline
+Analogamente ai tool del modulo XAI, le regole implementano l'interfaccia \texttt{AlertRuleContract}, che definisce le operazioni comuni che devono essere fornite dalle diverse 
+implementazioni. Il contratto viene implementato dalla classe astratta \texttt{AlertRule}, che fornisce il comportamento condiviso tra le diverse regole, in particolare per 
+quanto riguarda l'accesso ai parametri configurati dall'utente e la gestione dei permessi di utilizzo.
+\newline
+Le singole regole concrete estendono quindi \texttt{AlertRule} e implementano la logica specifica necessaria per individuare le relative violazioni. Ogni regola definisce 
+inoltre i metadati utilizzati dall'interfaccia utente e implementa principalmente due metodi:
+\begin{itemize}
+\item \texttt{check}: esegue le verifiche necessarie, effettuando le interrogazioni al database per individuare le condizioni che soddisfano i criteri della regola;
+\item \texttt{toAlert}: elabora le informazioni relative alla violazione individuata e le converte in un \acrfull{dto}, che verrà successivamente utilizzato per la generazione 
+  dell'alert.
+\end{itemize}
+Le regole implementate rispondono a diverse esigenze operative degli utenti finali di \textit{ErpAI}, con l'obiettivo di individuare tempestivamente situazioni 
+che possono richiedere un intervento. Tra gli esempi implementati sono presenti \textit{LateBuyOrdersRule} e \textit{LateInvoicesRule}, che individuano rispettivamente 
+ordini di acquisto e fatture in ritardo rispetto alle condizioni previste, \textit{SchedulingErrorsRule} e \textit{ForecastErrorsRule}, che segnalano errori o discrepanze nei processi di scheduling della 
+produzione e nelle predizioni delle vendite, e \textit{PausedMachineRule}, che individua le macchine che non stanno eseguendo alcuna lavorazione, fornendo anche informazioni relative alla durata e alla causa 
+della pausa.
+
+\subsubsection{Jobs}
+I \textit{job} sono le componenti responsabili dell'esecuzione asincrona delle operazioni necessarie alla generazione e alla distribuzione degli alert. Essi vengono avviati 
+dal sistema di pianificazione ed eseguono i controlli definiti dalle regole, la persistenza degli alert e la successiva gestione delle notifiche.
+
+\paragraph{AlertJob}
+La classe \texttt{AlertJob} costituisce il principale punto di ingresso del motore di generazione degli alert. Essa espone i metodi \texttt{handle}, che contiene 
+la logica principale di elaborazione, e \texttt{tooManyAlerts}, utilizzato per gestire il caso in cui il numero di violazioni individuate superi la soglia massima configurata.
+\newline
+Il metodo \texttt{handle} esegue le \textit{rules} abilitate dall'utente e raccoglie i risultati delle verifiche. Gli alert individuati vengono quindi persistiti nel database. 
+Successivamente viene verificato il numero di alert che devono essere notificati all'utente. Se tale numero è inferiore alla soglia massima prevista, vengono create le relative 
+notifiche e viene effettuato il \textit{dispatch} di un \texttt{BroadcastAlertJob} per la loro distribuzione all'interfaccia utente.
+\newline
+L'esecuzione della distribuzione delle notifiche tramite una coda asincrona permette di separare la generazione degli alert dalla loro visualizzazione, evitando che un numero 
+elevato di notifiche rallenti l'elaborazione principale. La gestione delle code è affidata a Laravel Horizon, che utilizza Redis come sistema di coda.
+\newline
+Se invece il numero di alert supera la soglia configurata, viene richiamato il metodo \texttt{tooManyAlerts}. In questo caso il sistema evita la generazione di un numero 
+eccessivo di notifiche e produce una notifica specifica che informa l'utente della presenza di un numero elevato di violazioni.
+
+\paragraph{BroadcastAlertJob}
+La classe \texttt{BroadcastAlertJob} si occupa della distribuzione degli alert verso l'interfaccia utente. Il job crea la \textit{Notification Filament} corrispondente all'alert 
+e ne gestisce il \textit{broadcasting}, consentendo alla notifica di essere recapitata all'utente destinatario.
+\newline
+L'esecuzione di questa operazione tramite un job separato permette di mantenere indipendente la generazione degli alert dalla loro distribuzione, sfruttando il sistema di code 
+asincrone fornito da Laravel Horizon e Redis.
+
+\subsubsection{Command}
+Il motore di generazione degli alert viene avviato tramite un comando Artisan, eseguibile manualmente da terminale mediante \texttt{php artisan alert} oppure 
+automaticamente attraverso il sistema di scheduling di Laravel. In ambiente di produzione, il comando viene registrato nello scheduler dell'applicazione, definito in 
+\texttt{bootstrap/app.php}, che ne pianifica l'esecuzione secondo intervalli temporali prestabiliti.
+
+\paragraph{AlertCommand}
+La classe \texttt{AlertCommand} svolge esclusivamente il ruolo di punto di ingresso del motore di generazione degli alert e non contiene direttamente la logica 
+necessaria all'elaborazione delle regole.
+\newline
+Il metodo \texttt{handle}, unica operazione implementata dal comando, individua gli utenti che dispongono di almeno una regola alert abilitata e procede al \textit{dispatch} di 
+un \texttt{AlertJob} per ciascuno di essi. L'elaborazione vera e propria viene quindi delegata ai job, permettendo al comando di terminare rapidamente e lasciando l'esecuzione 
+dei controlli al sistema di code asincrone.
+
+\subsubsection{Resources e Pages}
+Per la realizzazione dell'interfaccia relativa al sistema di alert sono state sviluppate, utilizzando le funzionalità messe a disposizione da Filament, una 
+\textit{Resource} e due \textit{Pages}. Queste componenti sono implementate all'interno dell'applicazione Laravel e permettono di integrare direttamente la logica del 
+sistema di alert con gli elementi dell'interfaccia utente.
+\begin{itemize}
+  \item \textbf{\texttt{AlertResource}:} risorsa che gestisce la visualizzazione della lista degli alert rilevati;
+  \item \textbf{\texttt{ViewAlert}:} pagina dedicata alla visualizzazione del dettaglio di un singolo alert. Fornisce inoltre le funzionalità necessarie per richiedere una 
+    spiegazione dell'evento tramite il modulo XAI e per raggiungere la risorsa del gestionale associata all'evento che ha generato l'alert;
+  \item \textbf{\texttt{AlertSettings}:} pagina dedicata alla configurazione del sistema di alert, attraverso la quale l'utente può aggiungere, configurare e rimuovere le regole 
+    alert disponibili.
+\end{itemize}
+
+\subsection{Sistema di logging delle operazioni}
+Il sistema di logging delle operazioni si basa sull'utilizzo di una classe \textit{Observer}, incaricata di intercettare le principali operazioni effettuate sui modelli 
+Eloquent presenti nel sistema. In particolare, vengono registrati a database gli eventi relativi alla creazione, alla modifica e all'eliminazione dei record, permettendo 
+di mantenere uno storico delle operazioni effettuate dagli utenti.
+
+\subsubsection{Observers}
+
+\paragraph{AuditObserver}
+\texttt{AuditObserver} è la classe \textit{Observer} responsabile della registrazione delle operazioni effettuate sui modelli Eloquent. Essa implementa i 
+metodi \texttt{created()}, \texttt{updated()} e \texttt{deleted()}, che vengono richiamati automaticamente dal framework in corrispondenza delle relative operazioni.
+I metodi dell'\textit{Observer} delegano quindi la costruzione del record di audit a un metodo comune, \texttt{base}, che predispone un'istanza di \texttt{AuditLog} contenente 
+le informazioni necessarie alla registrazione dell'operazione. Il record viene successivamente completato con i dati specifici dell'evento e persistito nel database.
+
+\subsubsection{Resources e Pages}
+Per la realizzazione dell'interfaccia relativa al sistema di logging sono state sviluppate una \textit{Resource} e una \textit{Page}, quest'ultima integrata con una vista 
+\textit{Blade} dedicata alla visualizzazione dei dettagli.
+\begin{itemize}
+  \item \textbf{\texttt{AuditLogResource}:} risorsa che gestisce la visualizzazione dell'elenco delle operazioni registrate nel sistema;
+  \item \textbf{\texttt{ViewAuditLogPage}:} pagina dedicata alla visualizzazione del dettaglio di un singolo log. A differenza della pagina \texttt{ViewAlert}, non utilizza 
+    direttamente i componenti di visualizzazione dei record forniti da Filament, ma passa i dati alla relativa vista \textit{Blade} per la loro elaborazione;
+  \item \textbf{\texttt{view-audit-log.blade}:} vista \textit{Blade} responsabile della visualizzazione delle modifiche effettuate sul modello associato al log. L'utente può 
+    scegliere se visualizzare l'intero storico dell'istanza oppure limitarsi all'operazione selezionata. È inoltre possibile visualizzare tutte le proprietà del modello oppure 
+    esclusivamente quelle interessate dalla modifica. Per ogni operazione vengono infine riportati la data e l'utente responsabile dell'azione.
+\end{itemize}
+
+\section{Design Pattern utilizzati}
+\subsection{Observer Pattern}
+La classe \texttt{AuditObserver} implementa l'\textit{Observer Pattern} e viene registrata all'interno di \texttt{AppServiceProvider}, classe responsabile della registrazione 
+e configurazione dei servizi dell'applicazione. Per ogni modello Eloquent soggetto a tracciamento viene effettuata la registrazione dell'Observer tramite il metodo 
+\texttt{\$model::observe(AuditObserver::class)}.
+\newline
+A seguito della registrazione, Laravel provvede a notificare automaticamente \texttt{AuditObserver} quando sul modello si verificano gli eventi \texttt{created}, 
+\texttt{updated} o \texttt{deleted}. L'Observer intercetta quindi tali eventi e provvede alla creazione del relativo record di \texttt{AuditLog}, permettendo di mantenere 
+una registrazione centralizzata delle operazioni effettuate sui modelli del sistema.
+
+\subsection{Strategy Pattern}
+Il \textit{Strategy Pattern} viene utilizzato per rendere intercambiabili le implementazioni dei provider LLM e delle regole alert. Entrambe le componenti sono definite 
+attraverso un'interfaccia comune, che permette al resto dell'applicazione di interagire con le diverse implementazioni senza dipendere direttamente dalle loro caratteristiche 
+specifiche.
+\newline
+Nel modulo XAI, \texttt{AiProviderContract} definisce le operazioni comuni che devono essere fornite dai diversi provider. Le classi concrete, come \texttt{RunpodOllamaProvider}, 
+implementano tale contratto fornendo le modalità specifiche di comunicazione con il servizio LLM. In questo modo il provider utilizzato può essere sostituito senza modificare la 
+logica del servizio che gestisce la conversazione.
+\newline
+Un approccio analogo viene adottato per il sistema di alert tramite \texttt{AlertRuleContract}. Ogni regola concreta implementa lo stesso contratto, fornendo una propria 
+strategia per individuare le violazioni e trasformarle in alert. Il motore di generazione può quindi eseguire le diverse regole senza dover conoscere nel dettaglio la logica 
+specifica di ciascuna di esse.
+\newline
+L'utilizzo di questo pattern permette di aggiungere nuovi provider o nuove regole alert mantenendo separata la loro logica specifica dal resto dell'applicazione e riducendo le 
+modifiche necessarie alle componenti già esistenti.
+
+\subsection{Command Pattern}
+Il sistema di generazione degli alert utilizza un comando dedicato, \texttt{AlertCommand}, che costituisce il punto di ingresso per l'avvio dell'elaborazione. Il comando 
+incapsula l'operazione di avvio del controllo delle regole alert e ne separa l'esecuzione dalla logica che implementa effettivamente il processo.
+\newline
+Il metodo \texttt{handle()} di \texttt{AlertCommand} individua gli utenti che possiedono regole alert abilitate e provvede al \textit{dispatch} di un \texttt{AlertJob} per 
+ciascuno di essi. In questo modo il comando non contiene direttamente la logica di verifica delle regole, ma si limita ad avviare il processo, demandandone l'esecuzione ai job.
+\newline
+Il comando può essere eseguito manualmente tramite Artisan oppure automaticamente attraverso lo scheduler dell'applicazione. Questa separazione permette di mantenere indipendenti 
+il meccanismo di avvio e la logica di elaborazione degli alert.
+
+\subsection{Template Method Pattern}
+Il \textit{Template Method Pattern} viene utilizzato nella gestione dei provider del modulo XAI. La classe astratta \texttt{AbstractAiProvider} definisce il 
+comportamento comune necessario per elaborare una richiesta al modello linguistico, centralizzando le operazioni condivise tra i diversi provider.
+\newline
+In particolare, il metodo \texttt{reply()} gestisce il flusso generale dell'elaborazione, occupandosi della costruzione della conversazione, del caricamento dei tool, 
+della gestione del contesto e dei parametri relativi alla richiesta. Le implementazioni concrete dei provider estendono quindi la classe astratta e forniscono le informazioni e 
+i comportamenti specifici necessari per comunicare con il relativo servizio.
+\newline
+Lo stesso approccio viene utilizzato anche nella struttura dei tool e delle regole alert, attraverso le rispettive classi astratte \texttt{AbstractTool} e \texttt{AlertRule}, 
+che centralizzano la gestione delle funzionalità comuni lasciando alle classi concrete l'implementazione della logica specifica.
 
 \newpage
