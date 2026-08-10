@@ -625,11 +625,7 @@ Il codice dei requisiti, dove ogni requisito è identificato con il carattere \t
     \item[\textbf{F}:] Funzionale.
     \item[\textbf{Q}:] Di qualità.
     \item[\textbf{V}:] Di vincolo.
-    \item[\textbf{N}:] Obbligatorio.
-    \item[\textbf{D}:] Desiderabile.
-    \item[\textbf{Z}:] Facoltativo.
 \end{enumerate}
-
 Nelle tabelle \ref{tab:requisiti_funzionali}, \ref{tab:requisiti_qualitativi} e \ref{tab:requisiti_vincolo} sono riassunti i requisiti e il loro tracciamento con gli use case 
 delineati in fase di analisi.
 \newpage
@@ -648,47 +644,47 @@ delineati in fase di analisi.
         \caption{Tabella riguardante i requisiti funzionali del progetto} \label{tab:requisiti_funzionali} \\
         \endlastfoot 
 
-        \textbf{RFN-1} & Configurazione del modulo XAI & UC1 & N \\
+        \textbf{RFN-1} & Configurazione del modulo XAI & UC1 \\
         \hline
-        \textbf{RFN-2} & Selezione del modello LLM per il modulo XAI & UC1.1 & N \\
+        \textbf{RFN-2} & Selezione del modello LLM per il modulo XAI & UC1.1  \\
         \hline
-        \textbf{RFN-3} & Configurazione degli utenti abilitati al modulo XAI & UC1.2 & N \\
+        \textbf{RFN-3} & Configurazione degli utenti abilitati al modulo XAI & UC1.2  \\
         \hline
-        \textbf{RFN-4} & Configurazione dei tool disponibili per il modulo XAI & UC1.3 & N \\
+        \textbf{RFN-4} & Configurazione dei tool disponibili per il modulo XAI & UC1.3  \\
         \hline
-        \textbf{RFN-5} & Richiesta di spiegazioni al modulo XAI su una decisione del sistema & UC2 & N \\
+        \textbf{RFN-5} & Richiesta di spiegazioni al modulo XAI su una decisione del sistema & UC2\\
         \hline
-        \textbf{RFN-6} & Gestione della conversazione con il modulo XAI & UC2.1 & N \\
+        \textbf{RFN-6} & Gestione della conversazione con il modulo XAI & UC2.1 \\
         \hline
-        \textbf{RFN-7} & Chiamata a tool per spiegazioni del modulo XAI & UC2.2 & N \\
+        \textbf{RFN-7} & Chiamata a tool per spiegazioni del modulo XAI & UC2.2 \\
         \hline
-        \textbf{RFN-8} & Modello LLM non raggiungibile & UC2.3 & N \\
+        \textbf{RFN-8} & Modello LLM non raggiungibile & UC2.3  \\
         \hline
-        \textbf{RFN-9} & Limite token di risposta superato & UC2.4 & N \\
+        \textbf{RFN-9} & Limite token di risposta superato & UC2.4 \\
         \hline
-        \textbf{RFN-10} & Permessi non sufficienti per effettuare la richiesta & UC2.5 & N \\
+        \textbf{RFN-10} & Permessi non sufficienti per effettuare la richiesta & UC2.5  \\
         \hline
-        \textbf{RFN-11} & Richiesta creazione nuovi record & UC3 & N \\
+        \textbf{RFN-11} & Richiesta creazione nuovi record & UC3  \\
         \hline
-        \textbf{RFN-12} & Chiamata al tool per creazione record del modulo XAI & UC3.1 & N \\
+        \textbf{RFN-12} & Chiamata al tool per creazione record del modulo XAI & UC3.1  \\
         \hline
-        \textbf{RFN-13} & Dati forniti incorretti per la creazione del record & UC3.2 & N \\
+        \textbf{RFN-13} & Dati forniti incorretti per la creazione del record & UC3.2 \\
         \hline
-        \textbf{RFN-14} & Configurazione delle regole alert & UC4 & N \\
+        \textbf{RFN-14} & Configurazione delle regole alert & UC4  \\
         \hline
-        \textbf{RFN-15} & Visualizzazione delle notifiche alert & UC5 & N \\
+        \textbf{RFN-15} & Visualizzazione delle notifiche alert & UC5  \\
         \hline
-        \textbf{RFN-16} & Numero elevato di violazioni rilevate & UC5.1 & N \\
+        \textbf{RFN-16} & Numero elevato di violazioni rilevate & UC5.1  \\
         \hline
-        \textbf{RFN-17} & Visualizzazione del dettaglio dell'alert & UC6 & N \\
+        \textbf{RFN-17} & Visualizzazione del dettaglio dell'alert & UC6  \\
         \hline
-        \textbf{RFN-18} & Visualizzazione del modello associato all'alert & UC7 & N \\
+        \textbf{RFN-18} & Visualizzazione del modello associato all'alert & UC7  \\
         \hline
-        \textbf{RFN-19} & Richiesta al modulo XAI di una spiegazione relativa all'alert generato & UC8 & N \\
+        \textbf{RFN-19} & Richiesta al modulo XAI di una spiegazione relativa all'alert generato & UC8 \\
         \hline
-        \textbf{RFN-20} & Visualizzazione log operazioni & UC9 & N \\
+        \textbf{RFN-20} & Visualizzazione log operazioni & UC9 \\
         \hline
-        \textbf{RFN-21} & Visualizzazione dei dettagli di un'operazione & UC10 & N \\
+        \textbf{RFN-21} & Visualizzazione dei dettagli di un'operazione & UC10\\
         \hline
     \end{longtable}
 
@@ -700,7 +696,7 @@ delineati in fase di analisi.
     \begin{longtable}{|l|p{0.42\textwidth}|p{0.2\textwidth}|l|}
         \hline
         \rowcolor{gold}
-        \textbf{Codice} & \textbf{Descrizione requisito} & \textbf{UC Relativo} & \textbf{Necessità} \\
+        \textbf{Codice} & \textbf{Descrizione requisito} & \textbf{UC Relativo}\\
         \hline
         \endhead
 
@@ -709,17 +705,17 @@ delineati in fase di analisi.
         \caption{Tabella riguardante i requisiti di qualità del progetto} \label{tab:requisiti_qualitativi} \\
         \endlastfoot 
 
-        \textbf{RQN-1} & Il sistema deve garantire tempi di risposta adeguati nell'interazione con il modulo XAI, evitando attese non necessarie da parte dell'utente & UC1 - UC3.2, UC8 & N \\
+        \textbf{RQN-1} & Il sistema deve garantire tempi di risposta adeguati nell'interazione con il modulo XAI, evitando attese non necessarie da parte dell'utente & UC1 - UC3.2, UC8\\
         \hline
-        \textbf{RQN-2} & Il sistema deve garantire la sicurezza delle informazioni, impedendo agli utenti di accedere a dati per i quali non possiedono i permessi necessari & UC1 - UC10 & N \\
+        \textbf{RQN-2} & Il sistema deve garantire la sicurezza delle informazioni, impedendo agli utenti di accedere a dati per i quali non possiedono i permessi necessari & UC1 - UC10 \\
         \hline
-        \textbf{RQN-3} & Il sistema deve garantire la tracciabilità delle operazioni effettuate sui dati, registrando creazione, modifica ed eliminazione dei modelli & UC9 - UC10 & N \\
+        \textbf{RQN-3} & Il sistema deve garantire la tracciabilità delle operazioni effettuate sui dati, registrando creazione, modifica ed eliminazione dei modelli & UC9 - UC10  \\
         \hline
-        \textbf{RQN-4} & Le spiegazioni generate dal modulo XAI devono essere comprensibili per l'utente e presentate in linguaggio naturale & UC1 - UC3.2, UC8 & N \\
+        \textbf{RQN-4} & Le spiegazioni generate dal modulo XAI devono essere comprensibili per l'utente e presentate in linguaggio naturale & UC1 - UC3.2, UC8 \\
         \hline
-        \textbf{RQN-5} & Il sistema deve garantire tempi di risposta adeguati durante il recupero dei dati e nella conseguente generazione e notifica degli alert & UC5, UC5.1 & N \\
+        \textbf{RQN-5} & Il sistema deve garantire tempi di risposta adeguati durante il recupero dei dati e nella conseguente generazione e notifica degli alert & UC5, UC5.1 \\
         \hline
-        \textbf{RQN-6} & Il sistema deve notificare tempestivamente l'utente in caso di eccezioni nell'uso di modulo XAI e alert per ridurre le attese inutili & UC2.3 - UC2.5, UC5.1 & N \\
+        \textbf{RQN-6} & Il sistema deve notificare tempestivamente l'utente in caso di eccezioni nell'uso di modulo XAI e alert per ridurre le attese inutili & UC2.3 - UC2.5, UC5.1 \\
     \end{longtable}
 
 
@@ -729,7 +725,7 @@ delineati in fase di analisi.
     \begin{longtable}{|l|p{0.42\textwidth}|l|l|}
         \hline
         \rowcolor{gold}
-        \textbf{Codice} & \textbf{Descrizione requisito} & \textbf{UC Relativo} & \textbf{Necessità} \\
+        \textbf{Codice} & \textbf{Descrizione requisito} & \textbf{UC Relativo} \\
         \hline
         \endhead
 
@@ -738,15 +734,16 @@ delineati in fase di analisi.
         \caption{Tabella riguardante i requisiti di vincolo del progetto} \label{tab:requisiti_vincolo} \\
         \endlastfoot 
 
-        \textbf{RVN-1} & Il sistema deve essere sviluppato in PHP & - & N \\
+        \textbf{RVN-1} & Il sistema deve essere sviluppato in PHP & - \\
         \hline
-        \textbf{RVN-2} & L'interfaccia grafica deve essere sviluppata in Filament & - & N \\
+        \textbf{RVN-2} & L'interfaccia grafica deve essere sviluppata in Filament & -\\
         \hline
-        \textbf{RVN-3} & Il modulo XAI deve fornire le spiegazioni generate in lingua italiana & UC1 - UC3.2, UC8 & N \\
+        \textbf{RVN-3} & Il modulo XAI deve fornire le spiegazioni generate in lingua italiana & UC1 - UC3.2, UC8\\
         \hline
-        \textbf{RVN-4} & L'integrazione con i modelli linguistici deve avvenire attraverso le API messe a disposizione dai relativi provider & UC1 - UC3.2, UC8 & N \\
+        \textbf{RVN-4} & L'integrazione con i modelli linguistici deve avvenire attraverso le API messe a disposizione dai relativi provider & UC1 - UC3.2, UC8\\
         \hline
     \end{longtable}
 
-
+Si precisa che tutti i requisiti individuati durante l'attività di analisi sono considerati \textbf{obbligatori} e, di conseguenza, devono essere necessariamente 
+soddisfatti.
 \newpage
