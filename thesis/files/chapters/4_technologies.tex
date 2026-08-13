@@ -1,0 +1,68 @@
+\chapter{Tecnologie e strumenti}
+\label{chap:tecnologie}
+
+
+\section{Linguaggi di programmazione}
+\textbf{PHP} è un linguaggio di programmazione general purpose particolarmente diffuso nello sviluppo di applicazioni web lato server. È stato scelto, in versione 8.3, come linguaggio 
+principale per il backend di \textit{ErpAI} grazie alla sua maturità, alla vasta disponibilità di librerie e strumenti per lo sviluppo web e alla sua integrazione con il framework 
+Laravel. Un ulteriore vantaggio è la possibilità di sviluppare applicazioni strutturate e facilmente manutenibili attraverso le funzionalità offerte dalle versioni moderne 
+del linguaggio.
+
+
+\section{Framework e librerie}
+\subsection{Laravel}
+\textbf{Laravel} è un framework PHP open source progettato per lo sviluppo di applicazioni web. Fornisce una struttura organizzata per la realizzazione del backend e 
+mette a disposizione funzionalità per la gestione delle richieste HTTP, del routing, dell'accesso al database, dell'autenticazione e delle operazioni asincrone. 
+È stato scelto, in versione 11.x, per la sua ampia dotazione di funzionalità integrate, per la facilità di sviluppo e manutenzione del codice e per l'integrazione con gli altri componenti 
+utilizzati nel progetto.
+
+\subsection{Filament}
+\textbf{Filament} è un framework per Laravel dedicato alla realizzazione di pannelli amministrativi e interfacce gestionali. Permette di costruire rapidamente risorse, tabelle, 
+form e pagine attraverso componenti già pronti e fortemente integrati con Laravel. È stato scelto, in versione 3.x, per semplificare la realizzazione dell'interfaccia gestionale di \textit{ErpAI}, 
+riducendo il codice necessario per implementare le funzionalità di amministrazione e mantenendo una stretta integrazione con il backend.
+
+\subsection{Livewire}
+\textbf{Livewire} è un framework full-stack per Laravel che consente di creare interfacce web dinamiche utilizzando prevalentemente codice PHP. Il suo principale 
+vantaggio è la possibilità di aggiornare dinamicamente il DOM comunicando con il server senza dover gestire manualmente uno stato complesso lato client via JavaScript. 
+Essendo la tecnologia su cui si basa Filament, la sua adozione garantisce la massima coerenza nello sviluppo dei componenti interattivi del gestionale.
+
+\section{Tecnologie di persistenza e gestione dei dati}
+\subsection{MariaDB}
+\textbf{MariaDB} è un sistema di gestione di database relazionale open source, compatibile con SQL. È stato scelto, in versione 10.11, come database dell'applicazione per la sua affidabilità, 
+le buone prestazioni e l'integrazione con Laravel tramite il sistema di astrazione del database fornito dal framework. Il modello relazionale risulta inoltre particolarmente 
+adatto alla gestione delle numerose entità e relazioni presenti in un gestionale aziendale.
+
+\subsection{Redis}
+\textbf{Redis} è un sistema di gestione dati in memoria utilizzabile come database, cache e sistema di gestione delle code. La sua caratteristica principale è la possibilità di 
+effettuare operazioni molto rapide grazie alla gestione dei dati prevalentemente in memoria. Nel progetto viene utilizzato, nella versione 7, per la gestione della cache e delle code, consentendo 
+di separare le operazioni più onerose dal normale ciclo di elaborazione delle richieste.
+
+\subsection{Laravel Horizon}
+\textbf{Laravel Horizon} è un componente dell'ecosistema Laravel dedicato al monitoraggio e alla gestione delle code basate su Redis. Fornisce un'interfaccia per controllare i 
+processi in esecuzione, le attività completate e quelle fallite, oltre a informazioni sulle prestazioni delle code. È stato scelto, nella versione 5.x, per semplificare la gestione delle operazioni 
+asincrone del progetto e permettere di monitorarne lo stato direttamente dall'applicazione.
+
+\section{Ambiente di sviluppo e containerizzazione}
+
+\subsection{Docker latest}
+\textbf{Docker} è una piattaforma di containerizzazione che permette di eseguire applicazioni e servizi all'interno di ambienti isolati chiamati container. I container consentono 
+di distribuire insieme all'applicazione le dipendenze necessarie, riducendo le differenze tra gli ambienti di sviluppo ed esecuzione. Nel progetto viene utilizzato come base 
+dell'ambiente di sviluppo e per l'esecuzione isolata dei diversi servizi.
+
+\subsection{DDEV latest}
+\textbf{DDEV} è un ambiente di sviluppo locale, basato su Docker, progettato per semplificare la configurazione di applicazioni web e dei relativi servizi. Utilizza la 
+containerizzazione per fornire agli sviluppatori un ambiente riproducibile e isolato. È stato scelto per rendere uniforme l'ambiente di sviluppo tra i membri del team e 
+semplificare la configurazione dei servizi necessari all'esecuzione di \textit{ErpAI}.
+
+\section{Strumenti di qualità e testing}
+\subsection{Pest}
+\textbf{Pest} è un framework per il testing automatizzato in ambiente PHP. Progettato con un approccio incentrato sulla sintassi fluida e l'espressività del codice, 
+permette di scrivere unit e integration test estremamente leggibili e sintetici rispetto al classico PHPUnit. È stato scelto per verificare automaticamente il corretto 
+funzionamento delle funzionalità del backend di \textit{ErpAI} e prevenire l'insorgere di regressioni durante l'evoluzione del codice.
+
+\subsection{PHPStan e Larastan}
+\textbf{PHPStan} è uno strumento di analisi statica per PHP che permette di individuare potenziali errori e incongruenze nel codice senza doverlo eseguire. L'analisi viene 
+effettuata considerando principalmente i tipi e le possibili combinazioni dei dati utilizzati dal programma. \textbf{Larastan} estende PHPStan fornendo regole e funzionalità 
+specifiche per l'ecosistema Laravel, consentendo di analizzare correttamente costrutti e convenzioni tipiche del framework. Sono stati scelti per aumentare l'affidabilità e 
+la qualità del codice, individuando preventivamente problematiche che potrebbero manifestarsi durante l'esecuzione dell'applicazione.
+
