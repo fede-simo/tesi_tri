@@ -1,6 +1,88 @@
 \chapter{Conclusioni}
 \label{chap:conclusioni}
+\section{Consuntivo finale}
+L'attività di stage si è svolta coerentemente con il preventivo definito, per una durata complessiva di 300 ore. Si sono tuttavia verificati alcuni scostamenti rispetto alla pianificazione iniziale delle 
+singole attività. In particolare, la realizzazione del motore di alert e delle relative regole, per la quale erano state previste 45 ore, ha richiesto un impegno inferiore rispetto a quanto preventivato. 
+Al contrario, l'impegno necessario per l'implementazione del modulo XAI era stato inizialmente sottostimato e, a causa della maggiore complessità delle funzionalità richieste e di alcune problematiche 
+relative all'infrastruttura, ha richiesto un numero di ore superiore a quello previsto.
+\newline
+Nonostante tali variazioni, le differenze tra le singole attività si sono complessivamente compensate, permettendo di mantenere il carico di lavoro totale coerente con quanto previsto dal piano di lavoro e 
+di completare lo stage entro le 300 ore stabilite.
 
+\newpage
+\section{Raggiungimento degli obiettivi}
+\begin{center}
+    \keepXColumns
+    \rowcolors{2}{lightblue}{white}
+        \begin{longtable}{|l|p{0.45\textwidth}|l|l|}
+            \hline
+            \rowcolor{gold}
+            \textbf{Codice} & \textbf{Descrizione requisito} & \textbf{Tipologia} & \textbf{Soddisfatto}\\
+            \hline
+            \endhead
+
+            \hline
+            \rowcolor{white}
+            \caption{Tabella riguardante lo stato dei requisiti dell'attività di stage, aggiornati a fine attività di stage} \label{tab:requisiti_stage_finali} \\
+            \endlastfoot 
+
+            \textbf{O01} & Implementare un sistema XAI auditabile per registrare e consultare decisioni, fattori, evidenze e snapshot dei dati. & Obbligatorio & Sì\\
+            \hline
+            \textbf{O02} & Realizzare regole alert, eventi e notifiche configurabili per segnalare proattivamente criticità operative. & Obbligatorio & Sì\\
+            \hline
+            \textbf{O03} & Integrare i punti decisionali della terza consegna nei log XAI e negli alert, limitandosi a controlli, riprese in mano e integrazioni leggere. & Obbligatorio & Sì\\
+            \hline
+            \textbf{D01} & Differenziare le spiegazioni XAI e i dettagli visibili in base al ruolo dell'utente. & Desiderabile & Sì\\
+            \hline
+            \textbf{D02} & Predisporre run di ottimizzazione tracciabili con input, output, score, metriche e log decisionale associato. & Desiderabile & No\\
+            \hline
+            \textbf{D03} & Introdurre dashboard o riepiloghi sugli alert generati, presi in carico e risolti. & Desiderabile & Sì\\
+            \hline
+            \textbf{F01} & Collegare un solver o microservizio esterno per scenari specialistici come nesting laser o sequenziamento avanzato. & Funzionale & No\\
+            \hline
+            \textbf{F02} & Aggiungere suggerimenti automatici di configurazione soglie basati sui dati storici. & Funzionale & No\\
+            \hline
+            \textbf{F03} & Integrare le spiegazioni XAI nel chatbot sviluppato da un altro piano di lavoro o modulo parallelo. & Funzionale & No\\
+            \hline
+        \end{longtable}
+\end{center}
+
+Come mostrato dalla tabella \ref{tab:requisiti_stage_finali}, la maggior parte dei requisiti individuati è stata soddisfatta, ad eccezione dei requisiti facoltativi. Questi ultimi non sono stati 
+implementati principalmente a causa della necessità di approfondire componenti del sistema che non risultavano direttamente coinvolte nella realizzazione dei requisiti obbligatori.
+\newline
+L'implementazione di tali requisiti avrebbe infatti richiesto un'ulteriore fase di analisi e audit dell'architettura esistente, necessaria per acquisire una conoscenza sufficiente delle componenti 
+interessate e individuare le modalità di integrazione più appropriate. Considerata la durata limitata del periodo di stage, si è pertanto scelto di concentrare le attività sui requisiti obbligatori, 
+garantendone la completa implementazione e validazione.
+
+
+\section{Conoscenze acquisite}
+L'attività di stage ha rappresentato un'importante esperienza formativa, permettendo di consolidare conoscenze già acquisite durante il percorso di studi e di sviluppare nuove competenze in ambito tecnico e 
+metodologico.
+\newline
+In particolare, sono state approfondite le conoscenze relative alla programmazione orientata agli oggetti, con un focus sul linguaggio PHP e sui framework Laravel e Filament. L'utilizzo di tali tecnologie 
+all'interno di un'applicazione reale ha permesso di comprendere più approfonditamente l'organizzazione e l'interazione tra le diverse componenti di un sistema software, consentendo di intervenire direttamente 
+sul backend, sull'interfaccia utente e sul livello di persistenza dei dati.
+\newline
+Un'ulteriore importante opportunità formativa è stata rappresentata dallo sviluppo di funzionalità basate sull'intelligenza artificiale. In particolare, l'implementazione del modulo XAI ha permesso di acquisire 
+esperienza nell'integrazione di modelli linguistici all'interno di applicazioni esistenti e nell'utilizzo delle API messe a disposizione dai relativi provider. Questo ha consentito di approfondire un ambito 
+tecnologico di particolare attualità e rilevanza nel contesto dello sviluppo software.
+\newline
+Infine, l'attività ha permesso di acquisire competenze relative alle metodologie e agli strumenti utilizzati nel processo di sviluppo software. In particolare, sono state approfondite le pratiche di \textbf{Continuous 
+Integration} e di testing automatico, oltre all'utilizzo sistematico degli \textit{Issue Tracking System} come strumento per la pianificazione, l'organizzazione e il monitoraggio delle attività di sviluppo. È stato 
+inoltre possibile sperimentare direttamente l'utilizzo del framework \textbf{Scrum} come metodologia di lavoro, partecipando alla pianificazione e all'organizzazione delle attività all'interno di sprint di sviluppo.
+
+\section{Valutazione personale}
+Il periodo di tirocinio ha rappresentato un'importante occasione di crescita personale e professionale, sia dal punto di vista dello sviluppo delle competenze tecniche sia per quanto riguarda l'approccio al lavoro 
+e alla collaborazione all'interno di un team. La possibilità di lavorare su un progetto di reale interesse e destinato a un contesto aziendale concreto ha costituito un'importante fonte di motivazione e ha 
+contribuito a rendere l'esperienza particolarmente stimolante e soddisfacente.
+\newline
+L'esperienza presso Spazio Dev S.r.l. è stata inoltre molto positiva dal punto di vista dell'ambiente lavorativo. Le dimensioni contenute dell'azienda hanno rappresentato un'opportunità significativa, permettendomi 
+di avere una visione più ampia del processo di sviluppo e di osservare direttamente le diverse attività e responsabilità coinvolte nella realizzazione del progetto. Questo ha contribuito a comprendere meglio non 
+solo gli aspetti strettamente legati alla programmazione, ma anche le dinamiche organizzative e collaborative che caratterizzano lo sviluppo di un prodotto software.
+\newline
+Un ulteriore aspetto particolarmente significativo è stato il rapporto instaurato con gli sviluppatori che mi hanno seguito durante il periodo di stage. Il confronto quotidiano e il supporto ricevuto hanno 
+rappresentato una parte importante del percorso formativo, permettendomi di apprendere nuove metodologie di lavoro, confrontarmi con problematiche concrete e migliorare progressivamente le mie competenze sia 
+tecniche sia relazionali.
 
 
 
