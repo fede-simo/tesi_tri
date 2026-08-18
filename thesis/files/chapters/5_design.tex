@@ -1,78 +1,6 @@
 \chapter{Progettazione e codifica}
 \label{chap:progettazione-codifica}
 
-
-\section{Tecnologie e strumenti}
-\label{sec:tecnologie-strumenti}
-
-
-\subsection{Linguaggi di programmazione}
-\textbf{PHP} è un linguaggio di programmazione general purpose particolarmente diffuso nello sviluppo di applicazioni web lato server. È stato scelto, in versione 8.3, come linguaggio 
-principale per il backend di \textit{ErpAI} grazie alla sua maturità, alla vasta disponibilità di librerie e strumenti per lo sviluppo web e alla sua integrazione con il framework 
-Laravel. Un ulteriore vantaggio è la possibilità di sviluppare applicazioni strutturate e facilmente manutenibili attraverso le funzionalità offerte dalle versioni moderne 
-del linguaggio.
-
-
-\subsection{Framework e librerie}
-\subsubsection{Laravel}
-\textbf{Laravel} è un framework PHP open source progettato per lo sviluppo di applicazioni web. Fornisce una struttura organizzata per la realizzazione del backend e 
-mette a disposizione funzionalità per la gestione delle richieste HTTP, del routing, dell'accesso al database, dell'autenticazione e delle operazioni asincrone. 
-È stato scelto, in versione 11.x, per la sua ampia dotazione di funzionalità integrate, per la facilità di sviluppo e manutenzione del codice e per l'integrazione con gli altri componenti 
-utilizzati nel progetto.
-
-\subsubsection{Filament}
-\textbf{Filament} è un framework per Laravel dedicato alla realizzazione di pannelli amministrativi e interfacce gestionali. Permette di costruire rapidamente risorse, tabelle, 
-form e pagine attraverso componenti già pronti e fortemente integrati con Laravel. È stato scelto, in versione 3.x, per semplificare la realizzazione dell'interfaccia gestionale di \textit{ErpAI}, 
-riducendo il codice necessario per implementare le funzionalità di amministrazione e mantenendo una stretta integrazione con il backend.
-
-\subsubsection{Livewire}
-\textbf{Livewire} è un framework full-stack per Laravel che consente di creare interfacce web dinamiche utilizzando prevalentemente codice PHP. Il suo principale 
-vantaggio è la possibilità di aggiornare dinamicamente il DOM comunicando con il server senza dover gestire manualmente uno stato complesso lato client via JavaScript. 
-Essendo la tecnologia su cui si basa Filament, la sua adozione garantisce la massima coerenza nello sviluppo dei componenti interattivi del gestionale.
-
-\subsection{Tecnologie di persistenza e gestione dei dati}
-\subsubsection{MariaDB}
-\textbf{MariaDB} è un sistema di gestione di database relazionale open source, compatibile con SQL. È stato scelto, in versione 10.11, come database dell'applicazione per la sua affidabilità, 
-le buone prestazioni e l'integrazione con Laravel tramite il sistema di astrazione del database fornito dal framework. Il modello relazionale risulta inoltre particolarmente 
-adatto alla gestione delle numerose entità e relazioni presenti in un gestionale aziendale.
-
-\subsubsection{Redis}
-\textbf{Redis} è un sistema di gestione dati in memoria utilizzabile come database, cache e sistema di gestione delle code. La sua caratteristica principale è la possibilità di 
-effettuare operazioni molto rapide grazie alla gestione dei dati prevalentemente in memoria. Nel progetto viene utilizzato, nella versione 7, per la gestione della cache e delle code, consentendo 
-di separare le operazioni più onerose dal normale ciclo di elaborazione delle richieste.
-
-\subsubsection{Laravel Horizon}
-\textbf{Laravel Horizon} è un componente dell'ecosistema Laravel dedicato al monitoraggio e alla gestione delle code basate su Redis. Fornisce un'interfaccia per controllare i 
-processi in esecuzione, le attività completate e quelle fallite, oltre a informazioni sulle prestazioni delle code. È stato scelto, nella versione 5.x, per semplificare la gestione delle operazioni 
-asincrone del progetto e permettere di monitorarne lo stato direttamente dall'applicazione.
-
-\subsection{Ambiente di sviluppo e containerizzazione}
-
-\subsubsection{Docker latest}
-\textbf{Docker} è una piattaforma di containerizzazione che permette di eseguire applicazioni e servizi all'interno di ambienti isolati chiamati container. I container consentono 
-di distribuire insieme all'applicazione le dipendenze necessarie, riducendo le differenze tra gli ambienti di sviluppo ed esecuzione. Nel progetto viene utilizzato come base 
-dell'ambiente di sviluppo e per l'esecuzione isolata dei diversi servizi.
-
-\subsubsection{DDEV latest}
-\textbf{DDEV} è un ambiente di sviluppo locale, basato su Docker, progettato per semplificare la configurazione di applicazioni web e dei relativi servizi. Utilizza la 
-containerizzazione per fornire agli sviluppatori un ambiente riproducibile e isolato. È stato scelto per rendere uniforme l'ambiente di sviluppo tra i membri del team e 
-semplificare la configurazione dei servizi necessari all'esecuzione di \textit{ErpAI}.
-
-\subsection{Strumenti di qualità e testing}
-\subsubsection{Pest}
-\textbf{Pest} è un framework per il testing automatizzato in ambiente PHP. Progettato con un approccio incentrato sulla sintassi fluida e l'espressività del codice, 
-permette di scrivere unit e integration test estremamente leggibili e sintetici rispetto al classico PHPUnit. È stato scelto per verificare automaticamente il corretto 
-funzionamento delle funzionalità del backend di \textit{ErpAI} e prevenire l'insorgere di regressioni durante l'evoluzione del codice.
-
-\subsubsection{PHPStan e Larastan}
-\textbf{PHPStan} è uno strumento di analisi statica per PHP che permette di individuare potenziali errori e incongruenze nel codice senza doverlo eseguire. L'analisi viene 
-effettuata considerando principalmente i tipi e le possibili combinazioni dei dati utilizzati dal programma. \textbf{Larastan} estende PHPStan fornendo regole e funzionalità 
-specifiche per l'ecosistema Laravel, consentendo di analizzare correttamente costrutti e convenzioni tipiche del framework. Sono stati scelti per aumentare l'affidabilità e 
-la qualità del codice, individuando preventivamente problematiche che potrebbero manifestarsi durante l'esecuzione dell'applicazione.
-
-
-\section{Architettura}
-\label{sec:architettura}
 Il progetto \textit{ErpAI} è basato su un'architettura a componenti, nella quale il backend principale è realizzato tramite Laravel ed è responsabile della gestione delle richieste, 
 della logica applicativa e dell'accesso ai dati. L'applicazione comunica con i servizi di persistenza e supporto, tra cui MariaDB e Redis, mentre ulteriori componenti esterni 
 sono utilizzati per attività specifiche, quali il forecasting e l'ottimizzazione della produzione.
@@ -94,7 +22,7 @@ Per quanto riguarda l'implementazione dei moduli, è stata adottata una struttur
 
 
 \newpage
-\section{Struttura del progetto}
+\subsection{Struttura del progetto}
 \begin{listing}[H]
 \begin{minted}{markdown}
 erpai/
@@ -128,13 +56,12 @@ erpai/
 \label{listing:folders}
 \end{listing}
 
-\section{Componenti principali}
-\subsection{Modulo XAI}
+\section{Modulo XAI}
 La logica del modulo XAI è organizzata all'interno della cartella \newline\texttt{app/Services/AiChat}. Al suo interno sono raccolte le componenti responsabili della gestione 
 dei provider dei modelli linguistici, dei tool, dei prompt e delle funzioni di valutazione (\textit{eval}), queste ultime descritte in dettaglio nella sezione dedicata al 
 testing.
 
-\subsubsection{Tool}
+\subsection{Tool}
 I tool rappresentano il punto di accesso del modello linguistico ai dati e alle funzionalità del gestionale. Attraverso di essi il modello può richiedere informazioni 
 al sistema o eseguire operazioni, nel rispetto dei permessi configurati.
 \newline
@@ -149,7 +76,7 @@ relativo tool.
 Questa struttura permette di mantenere separata la logica comune da quella specifica dei singoli tool, facilitando l'introduzione di nuove funzionalità e mantenendo uniforme 
 la gestione delle autorizzazioni.
 
-\paragraph{FinderTool}
+\subsubsection*{FinderTool}
 Per illustrare l'implementazione dei tool viene considerato \texttt{FinderTool}, sviluppato per consentire al modello linguistico di accedere ai dati del gestionale e 
 utilizzare informazioni reali durante la generazione delle risposte, riducendo il rischio di produrre informazioni non presenti nel sistema.
 \newline
@@ -166,7 +93,7 @@ Il tool è composto dai seguenti elementi principali:
     elaborare la risposta finale in linguaggio naturale.
 \end{itemize}
 
-\subsubsection{Provider}
+\subsection{Provider}
 I provider rappresentano il livello di integrazione tra il modulo XAI e i modelli linguistici. Essi gestiscono le richieste provenienti dall'applicazione e si occupano di 
 comunicare con i servizi che espongono i modelli linguistici attraverso le relative API. In questo modo, la logica specifica necessaria per interagire con ciascun provider 
 viene separata dal resto del modulo XAI.
@@ -188,7 +115,7 @@ Vi è infine il metodo \texttt{reply}, responsabile della gestione dell'interazi
 costruzione della conversazione e del relativo contesto, nonché della configurazione dei parametri relativi ai limiti e alle modalità di risposta. Una volta predisposti i 
 dati necessari, il metodo effettua la chiamata alle API del provider e restituisce la risposta elaborata dal modello.
 
-\paragraph{RunpodOllamaProvider}
+\subsubsection*{RunpodOllamaProvider}
 Per illustrare l'implementazione dei provider viene considerato \newline\texttt{RunpodOllamaProvider}, sviluppato per consentire al modulo XAI di utilizzare un modello linguistico 
 eseguito tramite Ollama\footnote{\cite{site:ollama}} su un'istanza Runpod\footnote{\cite{site:runpod}}. Durante lo sviluppo, questo provider è stato quello principalmente utilizzato, grazie alla disponibilità del modello open source 
 Qwen3.6:35B\footnote{\cite{site:qwen}} e alle prestazioni di risposta ottenute nell'ambiente di esecuzione utilizzato.
@@ -197,11 +124,11 @@ L'implementazione di \texttt{RunpodOllamaProvider} è volutamente ridotta, poich
 \texttt{AbstractAiProvider}. La classe concreta si occupa principalmente di fornire i parametri specifici necessari per l'accesso al servizio, quali l'URL dell'API, la chiave 
 di autenticazione e i limiti relativi al numero di token supportati dal modello.
 
-\subsubsection{Services}
+\subsection{Services}
 I \texttt{Services} costituiscono il livello di coordinamento tra l'interfaccia utente e le componenti del modulo XAI. In questa componente è stata implementata la classe 
 \texttt{AiChatService}, responsabile della gestione delle principali operazioni necessarie per l'interazione con il chatbot.
 
-\paragraph{AiChatService}
+\subsubsection*{AiChatService}
 La classe \texttt{AiChatService} coordina l'intero ciclo di utilizzo del modulo XAI. In particolare, gestisce il contesto associato alla richiesta, composto dalle informazioni 
 provenienti dalla pagina del gestionale e dalla conversazione corrente. Il contesto permette al modello linguistico di interpretare correttamente anche richieste che, considerate 
 singolarmente, potrebbero risultare incomplete.
@@ -215,11 +142,11 @@ conversazione, il modello configurato, i tool disponibili e il messaggio dell'ut
 il risultato alla componente chiamante.
 
 
-\subsection{Sistema di generazione degli alert}
+\section{Sistema di generazione degli alert}
 La logica del sistema di generazione degli alert è organizzata in diverse componenti, ciascuna con una responsabilità specifica. Il sistema è basato su un insieme di 
 regole configurabili che verificano periodicamente lo stato del gestionale e individuano eventuali condizioni che richiedono l'intervento dell'utente.
 
-\subsubsection{Rules}
+\subsection{Rules}
 Le \textit{rules} rappresentano le componenti responsabili della verifica delle condizioni che possono generare un alert. Esse effettuano interrogazioni al database per 
 individuare eventuali violazioni delle regole configurate dall'utente. La maggior parte delle regole prevede inoltre parametri configurabili, che permettono di personalizzare 
 le condizioni di attivazione degli alert in base alle esigenze dell'utente.
@@ -241,11 +168,11 @@ ordini di acquisto e fatture in ritardo rispetto alle condizioni previste, \text
 produzione e nelle predizioni delle vendite, e \textit{PausedMachineRule}, che individua le macchine che non stanno eseguendo alcuna lavorazione, fornendo anche informazioni relative alla durata e alla causa 
 della pausa.
 
-\subsubsection{Jobs}
+\subsection{Jobs}
 I \textit{job} sono le componenti responsabili dell'esecuzione asincrona delle operazioni necessarie alla generazione e alla distribuzione degli alert. Essi vengono avviati 
 dal sistema di pianificazione ed eseguono i controlli definiti dalle regole, la persistenza degli alert e la successiva gestione delle notifiche.
 
-\paragraph{AlertJob}
+\subsubsection*{AlertJob}
 La classe \texttt{AlertJob} costituisce il principale punto di ingresso del motore di generazione degli alert. Essa espone i metodi \texttt{handle}, che contiene 
 la logica principale di elaborazione, e \texttt{tooManyAlerts}, utilizzato per gestire il caso in cui il numero di violazioni individuate superi la soglia massima configurata.
 \newline
@@ -259,19 +186,19 @@ elevato di notifiche rallenti l'elaborazione principale. La gestione delle code 
 Se invece il numero di alert supera la soglia configurata, viene richiamato il metodo \texttt{tooManyAlerts}. In questo caso il sistema evita la generazione di un numero 
 eccessivo di notifiche e produce una notifica specifica che informa l'utente della presenza di un numero elevato di violazioni.
 
-\paragraph{BroadcastAlertJob}
+\subsubsection*{BroadcastAlertJob}
 La classe \texttt{BroadcastAlertJob} si occupa della distribuzione degli alert verso l'interfaccia utente. Il job crea la \textit{Notification Filament} corrispondente all'alert 
 e ne gestisce il \textit{broadcasting}, consentendo alla notifica di essere recapitata all'utente destinatario.
 \newline
 L'esecuzione di questa operazione tramite un job separato permette di mantenere indipendente la generazione degli alert dalla loro distribuzione, sfruttando il sistema di code 
 asincrone fornito da Laravel Horizon e Redis.
 
-\subsubsection{Command}
+\subsection{Command}
 Il motore di generazione degli alert viene avviato tramite un comando Artisan, eseguibile manualmente da terminale mediante \texttt{php artisan alert} oppure 
 automaticamente attraverso il sistema di scheduling di Laravel. In ambiente di produzione, il comando viene registrato nello scheduler dell'applicazione, definito in 
 \texttt{bootstrap/app.php}, che ne pianifica l'esecuzione secondo intervalli temporali prestabiliti.
 
-\paragraph{AlertCommand}
+\subsubsection*{AlertCommand}
 La classe \texttt{AlertCommand} svolge esclusivamente il ruolo di punto di ingresso del motore di generazione degli alert e non contiene direttamente la logica 
 necessaria all'elaborazione delle regole.
 \newline
@@ -279,7 +206,7 @@ Il metodo \texttt{handle}, unica operazione implementata dal comando, individua 
 un \texttt{AlertJob} per ciascuno di essi. L'elaborazione vera e propria viene quindi delegata ai job, permettendo al comando di terminare rapidamente e lasciando l'esecuzione 
 dei controlli al sistema di code asincrone.
 
-\subsubsection{Resources e Pages}
+\subsection{Resources e Pages}
 Per la realizzazione dell'interfaccia relativa al sistema di alert sono state sviluppate, utilizzando le funzionalità messe a disposizione da Filament, una 
 \textit{Resource} e due \textit{Pages}. Queste componenti sono implementate all'interno dell'applicazione Laravel e permettono di integrare direttamente la logica del 
 sistema di alert con gli elementi dell'interfaccia utente.
@@ -291,20 +218,20 @@ sistema di alert con gli elementi dell'interfaccia utente.
     alert disponibili.
 \end{itemize}
 
-\subsection{Sistema di logging delle operazioni}
+\section{Sistema di logging delle operazioni}
 Il sistema di logging delle operazioni si basa sull'utilizzo di una classe \textit{Observer}, incaricata di intercettare le principali operazioni effettuate sui modelli 
 Eloquent presenti nel sistema. In particolare, vengono registrati a database gli eventi relativi alla creazione, alla modifica e all'eliminazione dei record, permettendo 
 di mantenere uno storico delle operazioni effettuate dagli utenti.
 
-\subsubsection{Observers}
+\subsection{Observers}
 
-\paragraph{AuditObserver}
+\subsubsection*{AuditObserver}
 \texttt{AuditObserver} è la classe \textit{Observer} responsabile della registrazione delle operazioni effettuate sui modelli Eloquent. Essa implementa i 
 metodi \texttt{created()}, \texttt{updated()} e \texttt{deleted()}, che vengono richiamati automaticamente dal framework in corrispondenza delle relative operazioni.
 I metodi dell'\textit{Observer} delegano quindi la costruzione del record di audit a un metodo comune, \texttt{base}, che predispone un'istanza di \texttt{AuditLog} contenente 
 le informazioni necessarie alla registrazione dell'operazione. Il record viene successivamente completato con i dati specifici dell'evento e persistito nel database.
 
-\subsubsection{Resources e Pages}
+\subsection{Resources e Pages}
 Per la realizzazione dell'interfaccia relativa al sistema di logging sono state sviluppate una \textit{Resource} e una \textit{Page}, quest'ultima integrata con una vista 
 \textit{Blade} dedicata alla visualizzazione dei dettagli.
 \begin{itemize}
